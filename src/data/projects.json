@@ -1,0 +1,30 @@
+[
+    {
+      "title": "Citation Connectivity",
+      "imageSrc": "projects/citationconnectivity.png",
+      "description": "Leverages Graph Algorithms and RUST to determine the connectivity of research in different fields,",
+      "skills": ["Rust", "Graphs", "Data Structures", "Algorithms"],
+      "source": "https://github.com/JoeyRussoniello/CitationConnectivity"
+    },
+    {
+      "title": "Process Peeker",
+      "imageSrc": "projects/processpeeker.png",
+      "description": "Monitor computer process over time automatically to empirically track/compare app performance",
+      "skills": ["Multithreading","Python","Psutil","Operating System"],
+      "source": "https://github.com/JoeyRussoniello/ProcessPeeker"
+    },
+    {
+      "title": "NFL Super Bowl Predictor",
+      "imageSrc": "projects/nflml.png",
+      "description": "Trains a Random Forest Classifier to predict Super-Bowl Winning teams w/ 70% recall",
+      "skills": ["Python","Web Scraping", "ML", "Seaborn"],
+      "source": "https://github.com/JoeyRussoniello/NFL-ML"
+    },
+    {
+      "title":"Portfolio Project",
+      "imageSrc": "projects/portfolioGuy.png",
+      "description": "Learned the basics of React-JS, UI Design, and web deployment by building this website from scratch.",
+      "skills": ["React","HTML","CSS","UI Design"],
+      "source": "#projects"
+    }
+  ]

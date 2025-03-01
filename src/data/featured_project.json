@@ -1,0 +1,9 @@
+{
+    "title": "Market Survey Automation",
+    "imageSrc": "projects/marketsurvey.png",
+    "prefeaturesdescription": "EffortlessMarketSurvey is a powerful real estate web scraper that automates market surveys by collecting data from apartments.com.",
+    "features": ["Parallel data processing to handle multiple property surveys simultaneously","Automatic Chromedriver updates for seamless operation","Easy input customization from JSON and CSV","PowerBI Templates for out-of-box data visualization"],
+    "postfeaturesdescription": "EffortlessMarketSurvey streamlines competitor analysis, making it more efficient, effective, and a lot less of a hassle.",
+    "skills": ["Python", "Web Scraping", "PowerBI","Selenium","Pandas"],
+    "source": "https://github.com/JoeyRussoniello/EffortlessMarketSurvey"
+}

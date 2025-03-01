@@ -1,0 +1,132 @@
+@import '../../vars.css';
+
+.container{
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row; /* Position items side by side */
+    align-items:stretch;
+   /* align-items: center; /* Align items vertically in the center */
+    justify-content: flex-start; /* Align items to the left */
+
+    border-radius: 40px;
+    background: linear-gradient(90deg,
+        #576cbc 0%,
+        #132a53 100%
+    );
+    box-shadow: 0 16px 14px 0 #041523;
+    transition: transform 0.3s ease-in-out;
+}
+
+
+.container:hover{
+    transform: scale(1.05);
+}
+
+
+
+.image{
+    width: 30%;
+    min-height: 100%;
+    object-fit: cover;
+    border-top-left-radius: 40px;
+    border-bottom-right-radius: 40px;
+}
+
+.text-content {
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+    margin-left: 20px; /* Space between image and text */
+    color: var(--color-text);
+}
+
+
+.title {
+    font-size: 35px;
+    font-weight: 800;
+    color: var(--color-text);
+    font-family: var(--font-roboto);
+    position: relative;
+    display: inline-block;
+    overflow: hidden;
+}
+
+
+.skills{
+    width: 100%;
+    margin-top: 14px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 6px;
+    list-style: None;
+}
+
+.skill{
+    font-size: 25px;
+    font-weight: 400;
+    border-radius: 100px;
+    background: var(--color-dark);
+    padding: 2px 22px;
+}
+
+.links {
+    margin-top: 26px;
+    display: flex;
+    justify-content: left; 
+    flex-direction: row;
+    margin-bottom:20px;
+}
+
+.link{
+    text-decoration:none;
+    color: var(--color-text);
+    font-size:30px;
+    font-weight: 600;
+    border-radius: 100px;
+    background: var(--color-primary);
+    padding: 1px 22px;
+}
+
+.description{
+    margin-top:6px;
+    font-size:25px;
+    font-weight:400;
+}
+
+.features{
+    list-style:circle;
+    font-size:25px;
+    font-weight: 400;
+    padding-left: 2vw;
+    
+}
+
+@media screen and (max-width: 1200px) {
+    .container{
+        flex-direction:column;
+        word-wrap: break-word;
+        overflow-wrap:break-word;
+    }
+    .image{
+        width: 100%;
+    }
+    .skills{
+        justify-content: center;
+    }
+    .links{
+        justify-content: center;
+    }
+
+    .title{
+        font-size: 30px;
+    }
+
+    .description{
+        font-size: 20px;
+    }
+
+    .features{
+        font-size:20px;
+        font-weight: 300;
+    }
+}

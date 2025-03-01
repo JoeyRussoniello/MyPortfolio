@@ -1,0 +1,30 @@
+[
+    {
+      "title": "Python",
+      "imageSrc": "skills/python.png"
+    },
+    {
+      "title": "Typescript",
+      "imageSrc": "skills/typescript.png"
+    },
+    {
+      "title": "RUST",
+      "imageSrc": "skills/rust.png"
+    },
+    {
+      "title": "PowerBI",
+      "imageSrc": "skills/powerbi.png"
+    },
+    {
+      "title": "SQL",
+      "imageSrc": "skills/sql.png"
+    },
+    {
+      "title": "ReactJS",
+      "imageSrc": "skills/react.png"
+    },
+    {
+      "title": "ML",
+      "imageSrc": "skills/sklearn.png"
+    }
+  ]

@@ -1,0 +1,41 @@
+[
+    {
+      "role": "Data Analyst",
+      "organisation": "Red Tail Acquisitions",
+      "startDate": "May 2024",
+      "endDate": "Present",
+      "experiences": [
+        "Designed and Managed SQL databases", 
+        "Developed automated reporting solutions using BI/TypeScript",
+        "Leveraged ML models to optimize budget forecasting for a multi-million dollar portfolio",
+        "Streamlined asset managed reporting, weekly property reviews, and market analysis"
+      ],
+      "imageSrc": "history/redtail.png"
+    },
+    {
+      "role": "Course Assistant",
+      "organisation": "Boston University College of Data Science",
+      "startDate": "December 2024",
+      "endDate": "Present",
+      "experiences": [
+        "Instructed students on Rust, ML, neural networks, and UNIX, ensuring student success", 
+        "Optimized course framework for windows users, enhancing cross-OS accesibility",
+        "Collaborated closely with professors to refine curriculum and foster a supportive learning environment",
+        "Provided guidance on data structures and algorithms, helping students master foundational and advanced programming skills"
+      ],
+      "imageSrc": "history/bucds.png"
+    },
+    {
+      "role": "Revenue Management Intern",
+      "organisation": "Highway West Vacations",
+      "startDate": "May, 2023",
+      "endDate": "Aug, 2023",
+      "experiences": [
+        "Developed Corporate budgets, integrating STLY and projected data for accurate financial planning",
+        "Compiled and presented data in actionable reports using PowerBI and DAX",
+        "Analyzed company performance trends to dtermine optimal daily property rates and maximize revenue",
+        "Conducted market research on competitive sets and forecasted demand for potential property acquisitions"
+      ],
+      "imageSrc": "history/hwv2.png"
+    }
+  ]
