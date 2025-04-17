@@ -1,9 +1,9 @@
 {
-    "title": "Market Survey Automation",
-    "imageSrc": "projects/marketsurvey.png",
-    "prefeaturesdescription": "EffortlessMarketSurvey is a powerful real estate web scraper that automates market surveys by collecting data from apartments.com.",
-    "features": ["Parallel data processing to handle multiple property surveys simultaneously","Automatic Chromedriver updates for seamless operation","Easy input customization from JSON and CSV","PowerBI Templates for out-of-box data visualization"],
-    "postfeaturesdescription": "EffortlessMarketSurvey streamlines competitor analysis, making it more efficient, effective, and a lot less of a hassle.",
-    "skills": ["Python", "Web Scraping", "PowerBI","Selenium","Pandas"],
-    "source": "https://github.com/JoeyRussoniello/EffortlessMarketSurvey"
+    "title": "Frosts - A data science framework for Microsoft Office Scripts",
+    "imageSrc": "projects/frosts.png",
+    "prefeaturesdescription": "Frosts is a reusable Office Scripts framework that brings pandas-like data manipulation to Excel automation.",
+    "features": ["Familiar, chainable syntax inspired by Python's pandas","Built-in utilities for grouping, merging, filtering, and more","Effortless Integration into PowerAutoamte pipelines with JSON/CSV imports and exports"],
+    "postfeaturesdescription": "Built to simplify and standardize advanced Excel scripting for analysts, developers, and automation workflows.",
+    "skills": ["Typescript", "Excel Automation","Git Pages","OOP","Modular Design"],
+    "source": "https://github.com/JoeyRussoniello/frosts"
 }

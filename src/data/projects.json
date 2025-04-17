@@ -1,5 +1,12 @@
 [
   {
+    "title": "Market Survey Automation",
+    "imageSrc": "projects/marketsurvey.png",
+    "description": "A powerful real estate web scraper that automates market surveys by collecting data from apartments.com.",
+    "skills": ["Python", "Web Scraping", "PowerBI","Selenium","Pandas"],
+    "source": "https://github.com/JoeyRussoniello/EffortlessMarketSurvey"
+  },
+  {
     "title": "Easy Selenium",
     "imageSrc": "projects/easyselenium.png",
     "description": "A simplified, easier to learn version of the selenium Python module to lessen the learning curve for beginner webscraping.",
