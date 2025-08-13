@@ -26,5 +26,13 @@
     {
       "title": "ML",
       "imageSrc": "skills/sklearn.png"
+    },
+    {
+      "title": "Spark",
+      "imageSrc": "skills/spark.png"
+    },
+    {
+      "title": "Fabric",
+      "imageSrc": "skills/fabric.png"
     }
   ]
