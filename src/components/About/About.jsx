@@ -1,7 +1,6 @@
-import React from 'react';
 
-import styles from './About.module.css';
 import { getImageUrl } from '../../utils';
+import styles from './About.module.css';
 
 export const About = () => {
     return (
@@ -26,7 +25,7 @@ export const About = () => {
                         <img src={getImageUrl('about/serverIcon.png')} alt ='Cursor Icon'/>
                         <div className={styles.aboutItemText}>
                             <h3>Data Analyst/Engineer</h3>
-                            <p>Leveraging SQL, XML, Python, and visualization tools, I uncover trends and insights that drive strategic business decisions.</p>
+                            <p>Leveraging Big Data, Python, Spark, and visualization tools, I uncover trends and insights that drive strategic business decisions.</p>
                         </div>
                     </li>
                     <li className={styles.aboutItem}>
