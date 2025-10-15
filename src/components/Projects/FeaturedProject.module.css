@@ -86,8 +86,10 @@
     background: var(--color-primary);
     padding: 1px 22px;
 }
-
-/* .links {
+.link.install{
+    background: rgb(102, 139, 234)
+}
+.links {
     width: 100%;
     margin-top: 26px;
     margin-bottom: 26px;
@@ -97,7 +99,8 @@
     
     left: 50%;
     transform: translateX(-50%);
-}*/
+    gap: 12px
+}
 
 
 .description{

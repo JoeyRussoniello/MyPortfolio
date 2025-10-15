@@ -1,8 +1,7 @@
-import React from 'react';
 
-import styles from './FeaturedProject.module.css';
 import project from '../../data/featured_project.json';
 import { getImageUrl } from '../../utils';
+import styles from './FeaturedProject.module.css';
 
 export const FeaturedProject = () => {
     return (
@@ -27,6 +26,7 @@ export const FeaturedProject = () => {
 
             <div className={styles.links}>
                 <a href={project.source} className={styles.link}>Source</a>
+                <a href={project.install} className={`${styles.link} ${styles.install}`}>Install</a>
             </div>
             </div>
         </div>

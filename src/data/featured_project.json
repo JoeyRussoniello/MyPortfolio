@@ -1,9 +1,21 @@
 {
-    "title": "Frosts - A data science framework for Microsoft Office Scripts",
-    "imageSrc": "projects/frosts.png",
-    "prefeaturesdescription": "Frosts is a reusable Office Scripts framework that allows pandas-like data manipulation for Excel macros and Office Script API requests.",
-    "features": ["Familiar, chainable syntax inspired by Python's pandas","Built-in utilities for grouping, merging, filtering, and more","Effortless Integration into Power Automate pipelines JSON, CSV, and XLSX I/O"],
-    "postfeaturesdescription": "Built to simplify and standardize advanced Excel scripting for analysts, low-code developers, and help bridge the gap from Excel automation to the world of data science.",
-    "skills": ["Typescript", "Excel Automation","Git Pages","OOP","Modular Design"],
-    "source": "https://github.com/JoeyRussoniello/frosts"
+    "title": "autograder-setup — Rust CLI for GitHub Classroom Autograding",
+    "imageSrc": "projects/autograder.avif",
+    "prefeaturesdescription": "A tiny Rust CLI that bootstraps autograding for GitHub Classroom Rust assignments with zero hassle.",
+    "features": [
+        "One-minute setup: parse AST for tests and generate a ready-to-run Actions workflow",
+        "Markdown grading tables copied to clipboard or injected into README",
+        "Precompiled CI YAML for faster, cheaper grading runs"
+    ],
+    "postfeaturesdescription": "Deployed in Boston University's Intro to Rust course (130+ students, 1000+ repos)",
+    "skills": [
+        "Rust",
+        "CLI",
+        "GitHub Actions",
+        "GitHub Classroom",
+        "CI/CD",
+        "DevOps"
+    ],
+    "source": "https://github.com/JoeyRussoniello/rust-autograder-setup",
+    "install": "https://crates.io/crates/autograder-setup/2.2.6"
 }

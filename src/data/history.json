@@ -1,54 +1,54 @@
 [
-    {
-      "role": "Data Scientist",
-      "organisation": "Trinity Property Consultants",
-      "startDate": "May 2025",
-      "endDate": "Present",
-      "experiences": [
-        "Deployed scalable medallion data pipelines in Microsoft Fabric/ADF for structured data processing and analytics.", 
-        "Engineered PySpark and Hadoop workflows boosting processing efficiency by 80% across diverse business domains.",
-        "Designed STAR schema Direct Lake data models to optimize BI performance, decreasing load times by 15x",
-        "Replaced SaaS reporting with in-house solutions, saving more than $1.5 milllion in annual expenses"
-      ],
-      "imageSrc": "history/trinity.svg"
-    },
-    {
-      "role": "Course Assistant",
-      "organisation": "Boston University College of Data Science",
-      "startDate": "December 2024",
-      "endDate": "Present",
-      "experiences": [
-        "Instructed students on Rust, ML, neural networks, and UNIX, ensuring student success", 
-        "Optimized course framework for windows users, enhancing cross-OS accesibility",
-        "Collaborated closely with professors to refine curriculum and foster a supportive learning environment",
-        "Provided guidance on data structures and algorithms, helping students master foundational and advanced programming skills"
-      ],
-      "imageSrc": "history/bucds.png"
-    },
-    {
-      "role": "Data Analyst Intern",
-      "organisation": "Red Tail Acquisitions",
-      "startDate": "May 2024",
-      "endDate": "April 2025",
-      "experiences": [
-        "Designed and Managed SQL databases", 
-        "Developed automated reporting solutions using Microsoft Power Platform and TypeScript",
-        "Leveraged ML models to optimize budget forecasting for a multi-million dollar portfolio",
-        "Streamlined asset managed reporting, weekly property reviews, and market analysis"
-      ],
-      "imageSrc": "history/redtail.png"
-    },
-    {
-      "role": "Revenue Management Intern",
-      "organisation": "Highway West Vacations",
-      "startDate": "May, 2023",
-      "endDate": "Aug, 2023",
-      "experiences": [
-        "Developed Corporate budgets, integrating STLY and projected data for accurate financial planning",
-        "Compiled and presented data in actionable reports using PowerBI and DAX",
-        "Analyzed company performance trends to determine optimal daily property rates and maximize revenue",
-        "Conducted market research on competitive sets and forecasted demand for potential property acquisitions"
-      ],
-      "imageSrc": "history/hwv2.png"
-    }
-  ]
+  {
+    "role": "Data Scientist",
+    "organisation": "Trinity Property Consultants",
+    "startDate": "May 2025",
+    "endDate": "Present",
+    "experiences": [
+      "Deployed scalable medallion data pipelines in Microsoft Fabric/ADF for structured data processing and analytics.",
+      "Engineered PySpark and Hadoop workflows boosting processing efficiency by 80% across diverse business domains.",
+      "Designed STAR schema Direct Lake data models to optimize BI performance, decreasing load times by 15x",
+      "Replaced SaaS reporting with in-house solutions, saving more than $1.5 milllion in annual expenses"
+    ],
+    "imageSrc": "history/trinity.svg"
+  },
+  {
+    "role": "Teaching Assistant",
+    "organisation": "Boston University College of Data Science",
+    "startDate": "December 2024",
+    "endDate": "Present",
+    "experiences": [
+      "Instructed students on Rust, ML, neural networks, and UNIX, ensuring student success",
+      "Optimized course framework for windows users, enhancing cross-OS accesibility",
+      "Collaborated closely with professors to refine curriculum and foster a supportive learning environment",
+      "Developed the course Autograder CI framework, reducing time to grade by 90% and increasing grade transparency"
+    ],
+    "imageSrc": "history/bucds.png"
+  },
+  {
+    "role": "Data Analyst Intern",
+    "organisation": "Red Tail Acquisitions",
+    "startDate": "May 2024",
+    "endDate": "April 2025",
+    "experiences": [
+      "Designed and Managed SQL databases",
+      "Developed automated reporting solutions using Microsoft Power Platform and TypeScript",
+      "Leveraged ML models to optimize budget forecasting for a multi-million dollar portfolio",
+      "Streamlined asset managed reporting, weekly property reviews, and market analysis"
+    ],
+    "imageSrc": "history/redtail.png"
+  },
+  {
+    "role": "Revenue Management Intern",
+    "organisation": "Highway West Vacations",
+    "startDate": "May, 2023",
+    "endDate": "Aug, 2023",
+    "experiences": [
+      "Developed Corporate budgets, integrating STLY and projected data for accurate financial planning",
+      "Compiled and presented data in actionable reports using PowerBI and DAX",
+      "Analyzed company performance trends to determine optimal daily property rates and maximize revenue",
+      "Conducted market research on competitive sets and forecasted demand for potential property acquisitions"
+    ],
+    "imageSrc": "history/hwv2.png"
+  }
+]
