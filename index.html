@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Joey Russoniello, data engineer</title>
+<meta name="description" content="Joey Russoniello, data engineer. Software that fixes inherently clunky environments.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400..600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:#E3E7DA}
+[id]{scroll-margin-top:72px}
+a{color:inherit}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid #1F36B8;outline-offset:3px}
+.on-dark :focus-visible{outline-color:#FFD54A}
+.disp{font-family:'Bricolage Grotesque',system-ui,sans-serif;font-stretch:75%;font-weight:800;letter-spacing:-0.03em}
+.ui{font-family:'Bricolage Grotesque',system-ui,sans-serif;font-stretch:100%}
+.serif{font-family:'Source Serif 4',Georgia,serif}
+.rise{animation:rise .9s cubic-bezier(.2,.8,.2,1) both}
+@keyframes rise{from{opacity:0;transform:translateY(32px)}to{opacity:1;transform:none}}
+.nav{text-decoration:none;padding:6px 2px;border-bottom:3px solid transparent;transition:border-color .15s}
+.nav:hover{border-color:#131A16}
+.tile{transition:top .8s cubic-bezier(.25,1.15,.35,1),box-shadow .2s,transform .2s}
+.tile:hover{transform:translateY(-2px)}
+.room{transition:background .3s}
+.btn{border:2px solid #131A16;border-radius:4px;padding:12px 20px;font-weight:700;font-size:16px;transition:transform .18s,box-shadow .18s,background .18s}
+.btn:hover{transform:translate(-2px,-2px);box-shadow:4px 4px 0 #131A16}
+.btn:active{transform:none;box-shadow:none}
+.card{display:flex;flex-direction:column;border:2px solid #131A16;border-radius:6px;text-decoration:none;color:#131A16;transition:transform .2s,box-shadow .2s}
+a.card:hover{transform:translate(-5px,-5px);box-shadow:8px 8px 0 #131A16}
+.card .go{display:inline-block;transition:transform .2s}
+a.card:hover .go{transform:translateX(8px)}
+.row{transition:background .2s}
+.row:hover{background:#FFD54A}
+.lnk{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:5px;transition:color .15s}
+.lnk:hover{color:#FFD54A}
+.biglink{display:block;text-decoration:none;color:#131A16;transition:color .2s}
+.biglink:hover{color:#1F36B8}
+.biglink .arr{display:inline-block;transition:transform .25s cubic-bezier(.2,.9,.3,1.2)}
+.biglink:hover .arr{transform:translateX(16px)}
+.pz{display:block;text-decoration:none;transition:transform .25s cubic-bezier(.2,.9,.3,1.3),filter .2s;animation:snap .95s cubic-bezier(.2,.9,.3,1.25) backwards}
+.pz:hover,.pz:focus-visible{transform:translate(-3px,-7px) rotate(-1.5deg);filter:drop-shadow(5px 6px 0 #131A16);z-index:5}
+@keyframes snap{from{transform:translate(var(--dx),var(--dy)) rotate(var(--r));opacity:0}55%{opacity:1}to{transform:none;opacity:1}}
+@media (max-width:560px){.puzzle{zoom:0.8}}
+@keyframes grow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@supports (animation-timeline:view()){.grow{transform-origin:left;animation:grow linear both;animation-timeline:view();animation-range:entry 5% entry 85%}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+
+<div id="top" class="ui" style="background:#E3E7DA;color:#131A16;">
+
+<!-- pinned navigation -->
+<div style="position:sticky;top:0;z-index:50;background:#E3E7DA;border-bottom:2px solid #131A16">
+<div style="max-width:1240px;margin:0 auto;padding:14px 32px;display:flex;flex-wrap:wrap;gap:10px 28px;align-items:center;justify-content:space-between">
+<a href="#top" class="ui" style="font-weight:800;font-size:21px;letter-spacing:-0.02em;text-decoration:none">Joey Russoniello</a>
+<div style="display:flex;flex-wrap:wrap;gap:6px 24px;font-weight:600;font-size:16px">
+<a class="nav" href="#study">BU project</a>
+<a class="nav" href="#work">Work</a>
+<a class="nav" href="#experience">Experience</a>
+<a class="nav" href="#contact">Contact</a>
+</div>
+</div>
+</div>
+
+<!-- hero -->
+<div style="max-width:1240px;margin:0 auto;padding:56px 32px 72px;display:flex;flex-wrap:wrap;gap:48px 56px;align-items:center;justify-content:space-between">
+<div style="flex:1 1 520px;min-width:0">
+<h1 class="disp" style="margin:0;font-size:clamp(48px,6.6vw,108px);line-height:0.92">
+<span class="rise" style="display:block">Clunky platforms.</span>
+<span class="rise" style="display:block;color:#1F36B8;animation-delay:.12s">Rebuilt to fit.</span>
+</h1>
+<p class="rise serif" style="animation-delay:.28s;margin:32px 0 0;font-size:21px;line-height:1.55;max-width:52ch">I am Joey Russoniello, a data engineer at Trinity Property Consultants in Irvine, California. I build software that fixes inherently clunky environments. At Boston University, classrooms were assigned by hand, so I built the optimizer that now places nearly 4,500 classes in 90 seconds. At work, AI agents kept getting our semantic models wrong, so I am building the layer that lets them ask for governed measures by name.</p>
+<p class="rise serif" style="animation-delay:.4s;margin:18px 0 0;font-size:21px;line-height:1.55;max-width:52ch">I like to step back from a problem, see how the pieces fit together, and rebuild the ones that do not.</p>
+</div>
+
+<div class="puzzle" style="flex:0 0 420px;min-width:0">
+<div style="position:relative;width:420px;height:280px">
+<div id="pieces" style="display:contents"></div>
+</div>
+<div class="ui" style="margin-top:22px;font-size:15px;font-weight:500;color:#3C4A42">Each piece is a project. Pick one up.</div>
+</div>
+</div>
+
+<!-- interactive stage -->
+<div style="max-width:1240px;margin:0 auto;padding:40px 32px 80px">
+<div style="margin-bottom:28px;max-width:62ch">
+<h2 class="disp" style="margin:0 0 14px;font-size:clamp(40px,5.5vw,72px);line-height:0.95">A toy version of my capstone</h2>
+<p class="serif" style="margin:0;font-size:20px;line-height:1.55">Boston University fits nearly 4,500 classes into hundreds of rooms. Here is the same problem with six courses and eight rooms, plus a catch: BIO and CHEM need lab rooms. Try to fit them yourself, or press Solve.</p>
+</div>
+<div style="background:#F3F5EE;border:2px solid #131A16;border-radius:6px;padding:24px">
+
+<div style="display:flex;flex-wrap:wrap;gap:20px 40px;align-items:flex-end;justify-content:space-between;margin-bottom:24px">
+<div style="display:flex;flex-wrap:wrap;gap:20px 48px">
+<div>
+<div id="wasted" class="disp" style="font-size:72px;line-height:0.95;font-variant-numeric:tabular-nums"></div>
+<div style="font-weight:600;font-size:15px;margin-top:4px">Seats going unused</div>
+</div>
+<div>
+<div class="disp" id="conflicts" style="font-size:72px;line-height:0.95;font-variant-numeric:tabular-nums"></div>
+<div style="font-weight:600;font-size:15px;margin-top:4px">Rules broken</div>
+</div>
+</div>
+<div style="display:flex;flex-wrap:wrap;gap:12px">
+<button class="btn" id="shuffle" style="background:#F3F5EE">Shuffle rooms</button>
+<button class="btn" id="solve" style="background:#FFD54A">Solve</button>
+</div>
+</div>
+
+<div style="display:flex;gap:14px">
+<div style="width:84px;flex:none;position:relative;height:408px">
+<div id="roomlabels" style="display:contents"></div>
+</div>
+<div style="position:relative;flex:1;min-width:0;height:408px">
+<div id="roomcells" style="display:contents"></div>
+<div id="tiles" style="display:contents"></div>
+</div>
+</div>
+
+<div id="status" aria-live="polite" style="margin-top:20px;font-weight:700;font-size:18px"></div>
+<div style="margin-top:6px;font-size:14px;line-height:1.5;color:#3C4A42;max-width:80ch">Drag a course onto another course or an empty room, or click a course and then click where it should go. Hatching is seats nobody is using. A circled L marks a lab room, or a course that needs one. This toy has 6 courses and 8 rooms. The real model placed nearly 4,500 courses.</div>
+</div>
+</div>
+
+<!-- case study -->
+<div id="study" class="on-dark" style="background:#1F36B8;color:#FFFFFF">
+<div style="max-width:1240px;margin:0 auto;padding:96px 32px 104px">
+<div style="font-weight:600;font-size:16px;color:#FFD54A">Case study. Senior capstone, Faculty of Computing &amp; Data Sciences, Boston University</div>
+<h2 class="disp" style="margin:16px 0 0;font-size:clamp(48px,8.5vw,128px);line-height:0.92;max-width:14ch">Nearly 4,500 classes. Hundreds of rooms.</h2>
+
+<figure style="margin:56px 0 0">
+<div style="border:2px dashed #FFD54A;border-radius:6px;display:flex;align-items:center;justify-content:center;text-align:center;padding:32px;background-image:repeating-linear-gradient(135deg,rgba(255,255,255,0.09) 0,rgba(255,255,255,0.09) 1.5px,transparent 1.5px,transparent 10px)">
+<div class="ui" style="max-width:40ch">
+<div style="font-weight:800;font-size:24px">Image goes here</div>
+<div style="margin-top:8px;font-size:17px;line-height:1.5;color:#E8ECFF">Clipart of the Faculty of Computing &amp; Data Sciences building, once it is ready.</div>
+</div>
+</div>
+<figcaption class="ui" style="margin-top:12px;font-size:15px;font-weight:500;color:#E8ECFF">The Faculty of Computing &amp; Data Sciences building at Boston University, home of the clinic that ran the project.</figcaption>
+</figure>
+
+<div style="display:flex;flex-wrap:wrap;gap:56px 72px;margin-top:72px;align-items:flex-start">
+<div class="serif" style="flex:1 1 440px;min-width:0;max-width:60ch;font-size:20px;line-height:1.7">
+<p style="margin:0 0 22px">Every semester, Boston University fits nearly 4,500 classes into hundreds of classrooms. Before this project, any optimization was done by hand at the registrar. I built the Classroom Utilization Project as my capstone, in a clinic run with BU's Information Services &amp; Technology.</p>
+<p style="margin:0 0 22px">The model treats the whole semester as one mixed-integer program. A class cannot go in a room that is too small, and two classes cannot share a room at the same time. Once those hold, it optimizes for fewer wasted seats and for keeping classes close to their department's home building.</p>
+<p style="margin:0 0 22px">Around the solver sits a FastAPI service that streams progress to a React app and keeps every run in SQLite, so results can be compared. It repairs infeasible warm starts, which lets a solve begin from the current schedule instead of from nothing. The solver sits behind a port, with Gurobi as the first adapter.</p>
+<p style="margin:0">The project is open source and under review by IS&amp;T and the Office of the University Registrar. A new student team continues the work this fall.</p>
+</div>
+
+<div style="flex:1 1 440px;min-width:0;display:flex;flex-direction:column;gap:40px">
+<div>
+<div class="ui" style="font-weight:700;font-size:20px;margin-bottom:12px">Time to solve</div>
+<div style="display:flex;align-items:center;gap:14px;margin-bottom:8px"><span style="width:104px;flex:none;font-size:16px;font-weight:600">First version</span><div style="flex:1;min-width:0"><div class="grow" style="height:30px;background:#FFFFFF;width:100%"></div></div><span style="width:92px;flex:none;font-weight:700;font-size:17px;text-align:right">9 hours</span></div>
+<div style="display:flex;align-items:center;gap:14px"><span style="width:104px;flex:none;font-size:16px;font-weight:600">Final</span><div style="flex:1;min-width:0"><div class="grow" style="height:30px;background:#FFD54A;width:0.28%;min-width:4px"></div></div><span style="width:92px;flex:none;font-weight:700;font-size:17px;text-align:right;color:#FFD54A">90 seconds</span></div>
+</div>
+<div>
+<div class="ui" style="font-weight:700;font-size:20px;margin-bottom:12px">Wasted seats per room</div>
+<div style="display:flex;align-items:center;gap:14px;margin-bottom:8px"><span style="width:104px;flex:none;font-size:16px;font-weight:600">By hand</span><div style="flex:1;min-width:0"><div class="grow" style="height:30px;background:#FFFFFF;width:100%"></div></div><span style="width:92px;flex:none;font-weight:700;font-size:17px;text-align:right">Baseline</span></div>
+<div style="display:flex;align-items:center;gap:14px"><span style="width:104px;flex:none;font-size:16px;font-weight:600">Optimized</span><div style="flex:1;min-width:0"><div class="grow" style="height:30px;background:#FFD54A;width:8%;min-width:4px"></div></div><span style="width:92px;flex:none;font-weight:700;font-size:17px;text-align:right;color:#FFD54A">92% fewer</span></div>
+</div>
+<div>
+<div class="ui" style="font-weight:700;font-size:20px;margin-bottom:12px">Walk from a department's home building</div>
+<div style="display:flex;align-items:center;gap:14px;margin-bottom:8px"><span style="width:104px;flex:none;font-size:16px;font-weight:600">By hand</span><div style="flex:1;min-width:0"><div class="grow" style="height:30px;background:#FFFFFF;width:100%"></div></div><span style="width:92px;flex:none;font-weight:700;font-size:17px;text-align:right">0.15 mi</span></div>
+<div style="display:flex;align-items:center;gap:14px"><span style="width:104px;flex:none;font-size:16px;font-weight:600">Optimized</span><div style="flex:1;min-width:0"><div class="grow" style="height:30px;background:#FFD54A;width:33.3%;min-width:4px"></div></div><span style="width:92px;flex:none;font-weight:700;font-size:17px;text-align:right;color:#FFD54A">0.05 mi</span></div>
+</div>
+<div style="font-size:15px;line-height:1.5;color:#E8ECFF">Bars are drawn to scale. Figures from BU Today, August 2026.</div>
+</div>
+</div>
+
+<div class="disp" style="margin-top:88px;font-size:clamp(34px,5.4vw,76px);line-height:1;color:#FFD54A;max-width:22ch">&ldquo;Essentially, we just translate these semantic concepts into math.&rdquo;</div>
+<div style="margin-top:16px;font-size:16px;font-weight:500;color:#E8ECFF">Joey Russoniello, in BU Today</div>
+
+<div style="display:flex;flex-wrap:wrap;gap:16px 36px;margin-top:56px;font-weight:700;font-size:19px">
+<a class="lnk" href="https://www.bu.edu/articles/2026/student-ai-powered-tool-help-analyze-classroom-space-usage/">Read the BU Today story</a>
+<a class="lnk" href="https://github.com/JoeyRussoniello/BU-Classroom-Allocation-Service">Source on GitHub</a>
+</div>
+<div class="serif" style="margin-top:40px;font-size:17px;line-height:1.6;color:#E8ECFF;max-width:70ch">Built with IS&amp;T and under the guidance of Prof. Lauren Wheelock. Zach Gentile (CDS'26) supported the front end and back end. The work began as capstone credit and continued as a paid clinic role funded by the CDS Launchpad.</div>
+</div>
+</div>
+
+<!-- work index -->
+<div id="work" style="max-width:1240px;margin:0 auto;padding:104px 32px 96px">
+<h2 class="disp" style="margin:0 0 16px;font-size:clamp(48px,7vw,96px);line-height:0.95">More things I have built</h2>
+<p class="serif" style="margin:0 0 40px;font-size:20px;line-height:1.5;max-width:52ch">Each one has its own page: what the problem was, what I made, and how it holds up.</p>
+<div style="display:flex;flex-wrap:wrap;gap:24px">
+
+<a class="card" href="semantic-connect.html" style="flex:2 1 560px;background:#4B2A7B;color:#FFFFFF;padding:28px;justify-content:space-between;gap:28px">
+<div>
+<div style="font-weight:700;font-size:15px;color:#FFD54A">In development at Trinity</div>
+<h3 class="disp" style="margin:10px 0 14px;font-size:clamp(40px,5vw,64px);line-height:0.95">Semantic Connect</h3>
+<p class="serif" style="margin:0;font-size:18px;line-height:1.55;max-width:52ch">A Python library for reading Power BI and Fabric semantic models without hand-written DAX. Web apps and AI agents ask for governed measures by name, and bad requests fail before any network call.</p>
+</div>
+<div style="font-weight:700;font-size:16px">Read the write-up <span class="go">&rarr;</span></div>
+</a>
+
+<a class="card" href="frosts.html" style="flex:1 1 300px;background:#7FD1AE;padding:28px;justify-content:space-between;gap:28px">
+<div>
+<div style="font-weight:700;font-size:15px">TypeScript library</div>
+<h3 class="disp" style="margin:10px 0 14px;font-size:clamp(40px,4vw,52px);line-height:0.95">frosts</h3>
+<p class="serif" style="margin:0;font-size:17px;line-height:1.55">A pandas-like DataFrame API for Excel Office Scripts and Power Automate, where npm packages are not an option.</p>
+</div>
+<div style="font-weight:700;font-size:16px">Read the write-up <span class="go">&rarr;</span></div>
+</a>
+
+<a class="card" href="autograder.html" style="flex:1 1 300px;background:#FF6A2B;padding:28px;justify-content:space-between;gap:28px">
+<div>
+<div style="font-weight:700;font-size:15px">Rust CLI</div>
+<h3 class="disp" style="margin:10px 0 14px;font-size:clamp(34px,3.6vw,46px);line-height:0.95">rust-autograder-setup</h3>
+<p class="serif" style="margin:0;font-size:17px;line-height:1.55">Sets up GitHub Classroom autograding in under a minute. Used across 130+ students and more than 1,000 repositories at BU.</p>
+</div>
+<div style="font-weight:700;font-size:16px">Read the write-up <span class="go">&rarr;</span></div>
+</a>
+
+<a class="card" href="sts-win-prediction.html" style="flex:1 1 300px;background:#8EC5FF;padding:28px;justify-content:space-between;gap:28px">
+<div>
+<div style="font-weight:700;font-size:15px">Machine learning</div>
+<h3 class="disp" style="margin:10px 0 14px;font-size:clamp(34px,3.6vw,46px);line-height:0.95">Slay the Spire win prediction</h3>
+<p class="serif" style="margin:0;font-size:17px;line-height:1.55">PyTorch LSTMs that estimate the win probability of a run as it unfolds, trained on 126K runs.</p>
+</div>
+<div style="font-weight:700;font-size:16px">Read the write-up <span class="go">&rarr;</span></div>
+</a>
+
+<a class="card" href="adpapi.html" style="flex:1 1 300px;background:#FFD54A;padding:28px;justify-content:space-between;gap:28px">
+<div>
+<div style="font-weight:700;font-size:15px">Python SDK on PyPI</div>
+<h3 class="disp" style="margin:10px 0 14px;font-size:clamp(40px,4vw,52px);line-height:0.95">adpapi</h3>
+<p class="serif" style="margin:0;font-size:17px;line-height:1.55">A client for ADP Workforce Now with OAuth2 and mTLS, retries, and a typed OData query builder. It carries Trinity's internal ADP integrations.</p>
+</div>
+<div style="font-weight:700;font-size:16px">Read the write-up <span class="go">&rarr;</span></div>
+</a>
+
+</div>
+</div>
+
+<!-- experience -->
+<div id="experience" style="max-width:1240px;margin:0 auto;padding:40px 32px 40px">
+<h2 class="disp" style="margin:0 0 20px;font-size:clamp(48px,7vw,96px);line-height:0.95">Where I have worked</h2>
+<p class="serif" style="margin:0 0 36px;font-size:20px;line-height:1.55;max-width:62ch">Three years across data engineering and applied machine learning, bridging large-scale pipelines and predictive modeling, with a focus on scalable, cost-effective data platforms.</p>
+<div style="border-bottom:2px solid #131A16">
+<div class="row" style="display:flex;flex-wrap:wrap;gap:8px 32px;padding:26px 16px;border-top:2px solid #131A16">
+<div style="flex:0 0 190px;font-weight:700;font-size:16px">May 2025 to now</div>
+<div style="flex:1 1 260px;min-width:0"><div style="font-weight:700;font-size:21px">Data Engineer</div><div style="font-size:16px;margin-top:2px">Trinity Property Consultants</div></div>
+<div class="serif" style="flex:1.4 1 340px;min-width:0;font-size:17px;line-height:1.55"><p style="margin:0 0 10px">Engineered PySpark, Hadoop, and SQL workflows that raised data processing efficiency by 80% across business domains.</p><p style="margin:0 0 10px">Designed STAR schema Direct Lake models that cut load times 15x.</p><p style="margin:0">Replaced SaaS business reporting with tailor-made solutions, saving around $1.5 million a year.</p></div>
+</div>
+<div class="row" style="display:flex;flex-wrap:wrap;gap:8px 32px;padding:26px 16px;border-top:2px solid #131A16">
+<div style="flex:0 0 190px;font-weight:700;font-size:16px">Since Jan 2025</div>
+<div style="flex:1 1 260px;min-width:0"><div style="font-weight:700;font-size:21px">Course Assistant</div><div style="font-size:16px;margin-top:2px">Boston University, Faculty of Computing &amp; Data Sciences</div></div>
+<div class="serif" style="flex:1.4 1 340px;min-width:0;font-size:17px;line-height:1.55"><p style="margin:0 0 10px">Designed and delivered Rust and memory efficiency modules.</p><p style="margin:0 0 10px">Integrated WSL workflows so labs worked across platforms.</p><p style="margin:0">Guided students through neural network troubleshooting, improving assignment pass rates.</p></div>
+</div>
+<div class="row" style="display:flex;flex-wrap:wrap;gap:8px 32px;padding:26px 16px;border-top:2px solid #131A16">
+<div style="flex:0 0 190px;font-weight:700;font-size:16px">Aug 2024 to Jul 2025</div>
+<div style="flex:1 1 260px;min-width:0"><div style="font-weight:700;font-size:21px">Data Analyst Intern</div><div style="font-size:16px;margin-top:2px">Red Tail Acquisitions</div></div>
+<div class="serif" style="flex:1.4 1 340px;min-width:0;font-size:17px;line-height:1.55"><p style="margin:0 0 10px">Built Power BI models that cut report generation time by 95%.</p><p style="margin:0 0 10px">Implemented statistical and machine learning models to improve budget forecasts for a multi-million-dollar portfolio.</p><p style="margin:0">Streamlined data pipelines to raise model training throughput and accuracy.</p></div>
+</div>
+<div class="row" style="display:flex;flex-wrap:wrap;gap:8px 32px;padding:26px 16px;border-top:2px solid #131A16">
+<div style="flex:0 0 190px;font-weight:700;font-size:16px">Education</div>
+<div style="flex:1 1 260px;min-width:0"><div style="font-weight:700;font-size:21px">B.S. Data Science</div><div style="font-size:16px;margin-top:2px">Boston University</div></div>
+<div class="serif" style="flex:1.4 1 340px;min-width:0;font-size:17px;line-height:1.55"><p style="margin:0 0 10px">GPA 3.98.</p><p style="margin:0 0 10px">Treasurer of Boston University on Broadway.</p><p style="margin:0">Boston University AI Development Acceleration Researcher.</p></div>
+</div>
+</div>
+<div class="serif" style="margin-top:28px;font-size:17px;line-height:1.6;max-width:72ch">Day to day: Python, SQL, PySpark, DAX, Rust, TypeScript, Azure, Microsoft Fabric, Power BI, PyTorch, scikit-learn, and Gurobi.</div>
+</div>
+
+<!-- contact -->
+<div id="contact" style="max-width:1240px;margin:0 auto;padding:96px 32px 72px">
+<p class="serif" style="margin:0 0 28px;font-size:21px;line-height:1.5;max-width:46ch">I am not actively looking, but I am glad to talk about optimization, data platforms, or developer tools.</p>
+<div class="disp" style="font-size:clamp(56px,12vw,168px);line-height:0.95">
+<a class="biglink" href="mailto:joseph.m.rusoniello@gmail.com">Email <span class="arr">&rarr;</span></a>
+<a class="biglink" href="https://www.linkedin.com/in/joseph-russoniello-b57681252/">LinkedIn <span class="arr">&rarr;</span></a>
+<a class="biglink" href="https://github.com/JoeyRussoniello">GitHub <span class="arr">&rarr;</span></a>
+</div>
+<div style="margin-top:56px;font-size:14px;font-weight:500;color:#3C4A42">2026 Joey Russoniello</div>
+</div>
+
+</div>
+
+<script src="main.js" defer></script>
+</body>
+</html>

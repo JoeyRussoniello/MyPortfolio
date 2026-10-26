@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>adpapi, Joey Russoniello</title>
+<meta name="description" content="Joey Russoniello, data engineer. Software that fixes inherently clunky environments.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400..600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:#E3E7DA}
+a{color:inherit}
+:focus-visible{outline:3px solid #1F36B8;outline-offset:3px}
+.disp{font-family:'Bricolage Grotesque',system-ui,sans-serif;font-stretch:75%;font-weight:800;letter-spacing:-0.03em}
+.ui{font-family:'Bricolage Grotesque',system-ui,sans-serif;font-stretch:100%}
+.serif{font-family:'Source Serif 4',Georgia,serif}
+.rise{animation:rise .9s cubic-bezier(.2,.8,.2,1) both}
+@keyframes rise{from{opacity:0;transform:translateY(32px)}to{opacity:1;transform:none}}
+.nav{text-decoration:none;padding:6px 2px;border-bottom:3px solid transparent;transition:border-color .15s}
+.nav:hover{border-color:#131A16}
+.chip{border:2px solid #131A16;border-radius:4px;padding:3px 11px;font-weight:700;font-size:14px;text-decoration:none;transition:background .15s}
+.chip:hover{background:#FFD54A}
+.chip[aria-current]{background:#131A16;color:#E3E7DA}
+.card{display:flex;flex-direction:column;border:2px solid #131A16;border-radius:6px;text-decoration:none;color:#131A16;transition:transform .2s,box-shadow .2s}
+a.card:hover{transform:translate(-5px,-5px);box-shadow:8px 8px 0 #131A16}
+.card .go{display:inline-block;transition:transform .2s}
+a.card:hover .go{transform:translateX(8px)}
+.prose p{margin:0 0 24px}
+.sub{font-family:'Bricolage Grotesque',system-ui,sans-serif;font-stretch:100%;font-weight:800;font-size:30px;line-height:1.1;letter-spacing:-0.02em;margin:48px 0 14px}
+.code{background:#131A16;color:#F3F5EE;border-radius:6px;padding:20px 24px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:14.5px;line-height:1.65;overflow-x:auto;white-space:pre;margin:8px 0 10px}
+.cap{font-family:'Bricolage Grotesque',system-ui,sans-serif;font-size:15px;font-weight:500;color:#3C4A42;margin:0 0 28px}
+.k{font-family:'Bricolage Grotesque',system-ui,sans-serif;font-weight:700;font-size:14px;color:#3C4A42;margin-bottom:6px}
+.v{font-family:'Bricolage Grotesque',system-ui,sans-serif;font-weight:600;font-size:17px;line-height:1.5}
+.gap{border:2px dashed #6F7C74;border-radius:6px;padding:16px 18px;font-family:'Bricolage Grotesque',system-ui,sans-serif;font-size:16px;line-height:1.5;font-weight:500;color:#3C4A42;margin:40px 0 0}
+.ulnk{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:4px;transition:color .15s}
+.ulnk:hover{color:#1F36B8}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+
+<div class="ui" style="background:#E3E7DA;color:#131A16;">
+
+<!-- pinned navigation -->
+<div style="position:sticky;top:0;z-index:50;background:#E3E7DA;border-bottom:2px solid #131A16">
+<div style="max-width:1240px;margin:0 auto;padding:14px 32px 10px;display:flex;flex-wrap:wrap;gap:10px 28px;align-items:center;justify-content:space-between">
+<a href="index.html" class="ui" style="font-weight:800;font-size:21px;letter-spacing:-0.02em;text-decoration:none">Joey Russoniello</a>
+<div style="display:flex;flex-wrap:wrap;gap:6px 24px;font-weight:600;font-size:16px">
+<a class="nav" href="index.html#study">BU project</a>
+<a class="nav" href="index.html#work">Work</a>
+<a class="nav" href="index.html#experience">Experience</a>
+<a class="nav" href="index.html#contact">Contact</a>
+</div>
+</div>
+<div style="max-width:1240px;margin:0 auto;padding:0 32px 12px;display:flex;flex-wrap:wrap;gap:8px;align-items:center">
+<span style="font-weight:700;font-size:14px;color:#3C4A42;margin-right:6px">Projects</span>
+<a class="chip" href="semantic-connect.html">Semantic Connect</a>
+<a class="chip" href="frosts.html">frosts</a>
+<a class="chip" href="autograder.html">rust-autograder-setup</a>
+<a class="chip" href="sts-win-prediction.html">Slay the Spire</a>
+<a class="chip" href="adpapi.html" aria-current="page">adpapi</a>
+</div>
+</div>
+
+<!-- band -->
+<div style="background:#FFD54A;color:#131A16">
+<div style="max-width:1240px;margin:0 auto;padding:88px 32px 72px">
+<div style="font-weight:700;font-size:16px">Python SDK, published on PyPI</div>
+<h1 class="disp rise" style="margin:14px 0 0;font-size:clamp(52px,9vw,136px);line-height:0.92">adpapi</h1>
+<p class="serif" style="margin:28px 0 0;font-size:24px;line-height:1.45;max-width:38ch">A small, typed client for the ADP Workforce Now API.</p>
+</div>
+</div>
+
+<!-- body -->
+<div style="max-width:1240px;margin:0 auto;padding:64px 32px 96px;display:flex;flex-wrap:wrap;gap:48px 72px;align-items:flex-start">
+<div style="flex:0 1 280px;min-width:240px;display:flex;flex-direction:column;gap:28px">
+<div><div class="k">In use</div><div class="v">Behind all of Trinity's internal ADP integrations</div></div>
+<div><div class="k">Stack</div><div class="v">Python, OAuth2, mTLS, OData, Azure Functions, Microsoft Fabric</div></div>
+<div><div class="k">Links</div><div class="v"><a class="ulnk" href="https://pypi.org/project/adpapi/">PyPI</a><br><a class="ulnk" href="https://joeyrussoniello.github.io/Adp-Api-Client/">Documentation</a><br><a class="ulnk" href="https://github.com/JoeyRussoniello/Adp-Api-Client">Source on GitHub</a></div></div>
+</div>
+<div class="prose serif" style="flex:1 1 520px;min-width:0;max-width:68ch;font-size:20px;line-height:1.7">
+<h2 class="sub" style="margin-top:0">The problem</h2>
+<p>ADP's Workforce Now API uses OAuth2 client credentials with mutual TLS, OData-style paging and field selection, and endpoints that return differently shaped data. Every integration was about to repeat the same auth, paging, and retry code, so I wrote it once.</p>
+<h2 class="sub">What it does</h2>
+<p>Credentials come from environment variables. <b>call_endpoint</b> pages through a collection with OData's top, skip, and select parameters and stops on an HTTP 204. <b>call_rest_endpoint</b> fills path parameters from a list, so pulling a set of workers by ID is one call. You can ask for masked or unmasked fields, subject to the tenant's permissions.</p>
+<p>Filtering uses a small expression builder that turns Python operators into OData filter strings, so a query reads like code instead of a hand-assembled string.</p>
+<div class="code">from adpapi import AdpApiClient, AdpCredentials
+from adpapi.odata_filters import FilterExpression
+
+active_since_2020 = (
+    FilterExpression.field("workers.status").eq("Active")
+    &amp; FilterExpression.field("workers.hireDate").ge("2020-01-01")
+)
+
+with AdpApiClient(AdpCredentials.from_env()) as api:
+    workers = api.call_endpoint(
+        endpoint="/hr/v2/workers",
+        filters=active_since_2020,
+        select=["workers/person/legalName", "workers/associateOID"],
+        masked=True,
+    )</div>
+<div class="cap">Adapted from the project README.</div>
+<h2 class="sub">Running in notebooks</h2>
+<p>Fabric and Databricks notebooks are awkward places to install a custom package. The repository includes a single notebook, monofile, that you upload and run with one magic command, after which the client is available without imports.</p>
+<h2 class="sub">In production</h2>
+<p>The SDK is the foundation of Trinity's internal ADP work: calendar sync, deduction auditing, HR email automation, and CRM reconciliation. Those run as Azure Functions with app registrations and rotating secrets, writing into Microsoft Fabric. The package is on PyPI with CI checks, a documentation site, and an MIT license, and it is the top Google result for "Python ADP SDK".</p>
+<div class="gap">Your note: add what made ADP's API hard to work with, and what you learned designing the query builder.</div>
+</div>
+</div>
+
+<!-- next project -->
+<div style="max-width:1240px;margin:0 auto;padding:0 32px 72px;display:flex;flex-wrap:wrap;gap:24px">
+<a class="card" href="semantic-connect.html" style="flex:2 1 520px;background:#4B2A7B;color:#FFFFFF;padding:28px;justify-content:space-between;gap:20px">
+<div style="font-weight:700;font-size:15px;color:#FFD54A">Back to the start</div>
+<div class="disp" style="font-size:clamp(44px,5vw,72px);line-height:0.95">Semantic Connect</div>
+<div style="font-weight:700;font-size:16px">Read the write-up <span class="go">&rarr;</span></div>
+</a>
+<a class="card" href="index.html" style="flex:1 1 280px;background:#F3F5EE;padding:28px;justify-content:space-between;gap:20px">
+<div style="font-weight:700;font-size:15px">Everything else</div>
+<div class="disp" style="font-size:clamp(36px,4vw,52px);line-height:0.95">Back to all work</div>
+<div style="font-weight:700;font-size:16px">Go home <span class="go">&rarr;</span></div>
+</a>
+</div>
+
+<div style="max-width:1240px;margin:0 auto;padding:28px 32px 56px;display:flex;flex-wrap:wrap;gap:12px 28px;font-weight:600;font-size:16px;border-top:2px solid #131A16">
+<a class="ulnk" href="mailto:joseph.m.rusoniello@gmail.com">Email</a>
+<a class="ulnk" href="https://www.linkedin.com/in/joseph-russoniello-b57681252/">LinkedIn</a>
+<a class="ulnk" href="https://github.com/JoeyRussoniello">GitHub</a>
+</div>
+
+</div>
+
+
+</body>
+</html>

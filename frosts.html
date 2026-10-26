@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>frosts, Joey Russoniello</title>
+<meta name="description" content="Joey Russoniello, data engineer. Software that fixes inherently clunky environments.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400..600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:#E3E7DA}
+a{color:inherit}
+:focus-visible{outline:3px solid #1F36B8;outline-offset:3px}
+.disp{font-family:'Bricolage Grotesque',system-ui,sans-serif;font-stretch:75%;font-weight:800;letter-spacing:-0.03em}
+.ui{font-family:'Bricolage Grotesque',system-ui,sans-serif;font-stretch:100%}
+.serif{font-family:'Source Serif 4',Georgia,serif}
+.rise{animation:rise .9s cubic-bezier(.2,.8,.2,1) both}
+@keyframes rise{from{opacity:0;transform:translateY(32px)}to{opacity:1;transform:none}}
+.nav{text-decoration:none;padding:6px 2px;border-bottom:3px solid transparent;transition:border-color .15s}
+.nav:hover{border-color:#131A16}
+.chip{border:2px solid #131A16;border-radius:4px;padding:3px 11px;font-weight:700;font-size:14px;text-decoration:none;transition:background .15s}
+.chip:hover{background:#FFD54A}
+.chip[aria-current]{background:#131A16;color:#E3E7DA}
+.card{display:flex;flex-direction:column;border:2px solid #131A16;border-radius:6px;text-decoration:none;color:#131A16;transition:transform .2s,box-shadow .2s}
+a.card:hover{transform:translate(-5px,-5px);box-shadow:8px 8px 0 #131A16}
+.card .go{display:inline-block;transition:transform .2s}
+a.card:hover .go{transform:translateX(8px)}
+.prose p{margin:0 0 24px}
+.sub{font-family:'Bricolage Grotesque',system-ui,sans-serif;font-stretch:100%;font-weight:800;font-size:30px;line-height:1.1;letter-spacing:-0.02em;margin:48px 0 14px}
+.code{background:#131A16;color:#F3F5EE;border-radius:6px;padding:20px 24px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:14.5px;line-height:1.65;overflow-x:auto;white-space:pre;margin:8px 0 10px}
+.cap{font-family:'Bricolage Grotesque',system-ui,sans-serif;font-size:15px;font-weight:500;color:#3C4A42;margin:0 0 28px}
+.k{font-family:'Bricolage Grotesque',system-ui,sans-serif;font-weight:700;font-size:14px;color:#3C4A42;margin-bottom:6px}
+.v{font-family:'Bricolage Grotesque',system-ui,sans-serif;font-weight:600;font-size:17px;line-height:1.5}
+.gap{border:2px dashed #6F7C74;border-radius:6px;padding:16px 18px;font-family:'Bricolage Grotesque',system-ui,sans-serif;font-size:16px;line-height:1.5;font-weight:500;color:#3C4A42;margin:40px 0 0}
+.ulnk{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:4px;transition:color .15s}
+.ulnk:hover{color:#1F36B8}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+
+<div class="ui" style="background:#E3E7DA;color:#131A16;">
+
+<!-- pinned navigation -->
+<div style="position:sticky;top:0;z-index:50;background:#E3E7DA;border-bottom:2px solid #131A16">
+<div style="max-width:1240px;margin:0 auto;padding:14px 32px 10px;display:flex;flex-wrap:wrap;gap:10px 28px;align-items:center;justify-content:space-between">
+<a href="index.html" class="ui" style="font-weight:800;font-size:21px;letter-spacing:-0.02em;text-decoration:none">Joey Russoniello</a>
+<div style="display:flex;flex-wrap:wrap;gap:6px 24px;font-weight:600;font-size:16px">
+<a class="nav" href="index.html#study">BU project</a>
+<a class="nav" href="index.html#work">Work</a>
+<a class="nav" href="index.html#experience">Experience</a>
+<a class="nav" href="index.html#contact">Contact</a>
+</div>
+</div>
+<div style="max-width:1240px;margin:0 auto;padding:0 32px 12px;display:flex;flex-wrap:wrap;gap:8px;align-items:center">
+<span style="font-weight:700;font-size:14px;color:#3C4A42;margin-right:6px">Projects</span>
+<a class="chip" href="semantic-connect.html">Semantic Connect</a>
+<a class="chip" href="frosts.html" aria-current="page">frosts</a>
+<a class="chip" href="autograder.html">rust-autograder-setup</a>
+<a class="chip" href="sts-win-prediction.html">Slay the Spire</a>
+<a class="chip" href="adpapi.html">adpapi</a>
+</div>
+</div>
+
+<!-- band -->
+<div style="background:#7FD1AE;color:#131A16">
+<div style="max-width:1240px;margin:0 auto;padding:88px 32px 72px">
+<div style="font-weight:700;font-size:16px">TypeScript library and compiler</div>
+<h1 class="disp rise" style="margin:14px 0 0;font-size:clamp(52px,9vw,136px);line-height:0.92">frosts</h1>
+<p class="serif" style="margin:28px 0 0;font-size:24px;line-height:1.45;max-width:38ch">A pandas-inspired data science toolkit for Excel Office Scripts and Power Automate.</p>
+</div>
+</div>
+
+<!-- body -->
+<div style="max-width:1240px;margin:0 auto;padding:64px 32px 96px;display:flex;flex-wrap:wrap;gap:48px 72px;align-items:flex-start">
+<div style="flex:0 1 280px;min-width:240px;display:flex;flex-direction:column;gap:28px">
+<div><div class="k">Status</div><div class="v">Published and fully documented</div></div>
+<div><div class="k">Stack</div><div class="v">TypeScript, Excel Office Scripts, Power Automate</div></div>
+<div><div class="k">Links</div><div class="v"><a class="ulnk" href="https://joeyrussoniello.github.io/frosts/">Documentation</a><br><a class="ulnk" href="https://github.com/JoeyRussoniello/frosts">Source on GitHub</a><br><a class="ulnk" href="https://github.com/JoeyRussoniello/frosts/releases">Permafrost releases</a></div></div>
+</div>
+<div class="prose serif" style="flex:1 1 520px;min-width:0;max-width:68ch;font-size:20px;line-height:1.7">
+<h2 class="sub" style="margin-top:0">The problem</h2>
+<p>Power Automate flows that touch Excel run Office Scripts, a sandboxed flavor of TypeScript. Filtering, grouping, merging, and pivoting a table there means hand-written loops over arrays, and there is no package manager to reach for. The automation ends up long, hard to read, and hard to maintain.</p>
+<h2 class="sub">What frosts adds</h2>
+<p>Frosts is a pandas-inspired framework that runs natively in Office Scripts. It gives you a DataFrame-style way to filter, group, merge, and describe datasets entirely inside Excel, so a flow can read like an analysis instead of a pile of loops. The full namespace guide documents every method and its performance.</p>
+<h2 class="sub">No imports, so one file</h2>
+<p>The Office Scripts engine does not support imports. That means frosts ships as a single file that you copy into each script. It works, but a deployed script rarely uses more than a handful of methods, and all the rest is dead weight in a place where compact, readable files matter.</p>
+<h2 class="sub">Permafrost</h2>
+<p>Permafrost is the answer: a small compiler, distributed as a downloadable program, that reads your finished script, keeps only the frosts methods it actually calls, strips the internal comments, and copies the trimmed result to your clipboard, ready to paste into the Office Scripts editor. You double-click it, type the name of your file, and paste.</p>
+<p>It currently has builds for Windows and macOS, a Linux build is planned, and it is still in beta. The project asks for a bug report with the compiled output whenever the result is not what you expect.</p>
+<div class="gap">Your note: add why you built it, and what flow or team needed it first.</div>
+</div>
+</div>
+
+<!-- next project -->
+<div style="max-width:1240px;margin:0 auto;padding:0 32px 72px;display:flex;flex-wrap:wrap;gap:24px">
+<a class="card" href="autograder.html" style="flex:2 1 520px;background:#FF6A2B;padding:28px;justify-content:space-between;gap:20px">
+<div style="font-weight:700;font-size:15px">Next project</div>
+<div class="disp" style="font-size:clamp(40px,4.4vw,64px);line-height:0.95">rust-autograder-setup</div>
+<div style="font-weight:700;font-size:16px">Read the write-up <span class="go">&rarr;</span></div>
+</a>
+<a class="card" href="index.html" style="flex:1 1 280px;background:#F3F5EE;padding:28px;justify-content:space-between;gap:20px">
+<div style="font-weight:700;font-size:15px">Everything else</div>
+<div class="disp" style="font-size:clamp(36px,4vw,52px);line-height:0.95">Back to all work</div>
+<div style="font-weight:700;font-size:16px">Go home <span class="go">&rarr;</span></div>
+</a>
+</div>
+
+<div style="max-width:1240px;margin:0 auto;padding:28px 32px 56px;display:flex;flex-wrap:wrap;gap:12px 28px;font-weight:600;font-size:16px;border-top:2px solid #131A16">
+<a class="ulnk" href="mailto:joseph.m.rusoniello@gmail.com">Email</a>
+<a class="ulnk" href="https://www.linkedin.com/in/joseph-russoniello-b57681252/">LinkedIn</a>
+<a class="ulnk" href="https://github.com/JoeyRussoniello">GitHub</a>
+</div>
+
+</div>
+
+
+</body>
+</html>
