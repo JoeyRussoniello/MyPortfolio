@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>frosts, Joey Russoniello</title>
-<meta name="description" content="Joey Russoniello, data engineer. Software that fixes inherently clunky environments.">
+<meta name="description" content="How I built frosts and the Permafrost compiler to reuse ETL logic in Excel Office Scripts and Power Automate.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400..600&display=swap" rel="stylesheet">
@@ -69,9 +69,9 @@ a.card:hover .go{transform:translateX(8px)}
 <!-- band -->
 <div style="background:#7FD1AE;color:#131A16">
 <div style="max-width:1240px;margin:0 auto;padding:88px 32px 72px">
-<div style="font-weight:700;font-size:16px">TypeScript library and compiler</div>
+<div style="font-weight:700;font-size:16px">TypeScript library and Rust compiler</div>
 <h1 class="disp rise" style="margin:14px 0 0;font-size:clamp(52px,9vw,136px);line-height:0.92">frosts</h1>
-<p class="serif" style="margin:28px 0 0;font-size:24px;line-height:1.45;max-width:38ch">A pandas-inspired data science toolkit for Excel Office Scripts and Power Automate.</p>
+<p class="serif" style="margin:28px 0 0;font-size:24px;line-height:1.45;max-width:38ch">CSV in. Transformations in one Office Script. JSON or workbook data out.</p>
 </div>
 </div>
 
@@ -79,20 +79,39 @@ a.card:hover .go{transform:translateX(8px)}
 <div style="max-width:1240px;margin:0 auto;padding:64px 32px 96px">
 <div class="prose serif" style="font-size:20px;line-height:1.7;max-width:100%">
 <div style="display:flex;flex-wrap:wrap;gap:12px 28px;padding:0 0 20px;border-bottom:2px solid #131A16;margin-bottom:24px;font-family:'Bricolage Grotesque',system-ui,sans-serif;font-size:15px;font-weight:700;color:#3C4A42">
-<div><span style="display:block;font-size:12px;text-transform:uppercase;letter-spacing:0.12em;color:#3C4A42;opacity:0.8">Status</span>Published and fully documented</div>
-<div><span style="display:block;font-size:12px;text-transform:uppercase;letter-spacing:0.12em;color:#3C4A42;opacity:0.8">Stack</span>TypeScript, Excel Office Scripts, Power Automate</div>
+<div><span style="display:block;font-size:12px;text-transform:uppercase;letter-spacing:0.12em;color:#3C4A42;opacity:0.8">Status</span>Published; in maintenance</div>
+<div><span style="display:block;font-size:12px;text-transform:uppercase;letter-spacing:0.12em;color:#3C4A42;opacity:0.8">Stack</span>TypeScript, Rust, Excel Office Scripts, Power Automate</div>
 <div><span style="display:block;font-size:12px;text-transform:uppercase;letter-spacing:0.12em;color:#3C4A42;opacity:0.8">Links</span><a class="ulnk" href="https://joeyrussoniello.github.io/frosts/">Documentation</a><br><a class="ulnk" href="https://github.com/JoeyRussoniello/frosts">Source on GitHub</a><br><a class="ulnk" href="https://github.com/JoeyRussoniello/frosts/releases">Permafrost releases</a></div>
 </div>
-<h2 class="sub" style="margin-top:0">The problem</h2>
-<p>Power Automate flows that touch Excel run Office Scripts, a sandboxed flavor of TypeScript. Filtering, grouping, merging, and pivoting a table there means hand-written loops over arrays, and there is no package manager to reach for. The automation ends up long, hard to read, and hard to maintain.</p>
-<h2 class="sub">What frosts adds</h2>
-<p>Frosts is a pandas-inspired framework that runs natively in Office Scripts. It gives you a DataFrame-style way to filter, group, merge, and describe datasets entirely inside Excel, so a flow can read like an analysis instead of a pile of loops. The full namespace guide documents every method and its performance.</p>
-<h2 class="sub">No imports, so one file</h2>
-<p>The Office Scripts engine does not support imports. That means frosts ships as a single file that you copy into each script. It works, but a deployed script rarely uses more than a handful of methods, and all the rest is dead weight in a place where compact, readable files matter.</p>
-<h2 class="sub">Permafrost</h2>
-<p>Permafrost is the answer: a small compiler, distributed as a downloadable program, that reads your finished script, keeps only the frosts methods it actually calls, strips the internal comments, and copies the trimmed result to your clipboard, ready to paste into the Office Scripts editor. You double-click it, type the name of your file, and paste.</p>
-<p>It currently has builds for Windows and macOS, a Linux build is planned, and it is still in beta. The project asks for a bug report with the compiled output whenever the result is not what you expect.</p>
-<div class="gap">Your note: add why you built it, and what flow or team needed it first.</div>
+<h2 class="sub" style="margin-top:0">Reusable ETL where the work already lived</h2>
+<p>I built frosts in an environment without a cloud compute platform for ETL. Excel and Power Automate handled ingestion and processing, and I kept writing the same transformations over arrays. I wanted one small library I could reuse instead of rebuilding that logic in every script.</p>
+<p>With frosts, one Office Script can read CSV, filter and aggregate the data, then return JSON to the next Power Automate workflow or write the result into a workbook. I wrote the entire TypeScript library and its companion Rust compiler, Permafrost.</p>
+<p>The library has been relatively stable for the past couple of years, with occasional compiler adjustments. The open-source repository has received 10 GitHub stars, a small signal of interest beyond my own workflows.</p>
+
+<div style="background:#F3F5EE;border:2px solid #131A16;border-radius:6px;padding:20px 24px;margin:24px 0">
+<div class="ui" style="font-weight:800;font-size:24px;margin-bottom:8px">Around 70% less embedded library boilerplate</div>
+<p style="margin:0">I estimate that Permafrost removes around 70% of the embedded library code in typical scripts by keeping only the methods they need. The script's own ETL logic stays intact.</p>
+</div>
+
+<h2 class="sub">A pipeline inside one script</h2>
+<p>I used a pandas-inspired DataFrame interface to make filtering, grouping, merging, and summaries read as a sequence of transformations. The processing stays inside Office Scripts, without adding a separate compute service.</p>
+<div class="code">function main(workbook: ExcelScript.Workbook, csv: string): string {
+    const summary = fr.read_csv(csv)
+        .filter("Amount", value => Number(value) > 0)
+        .groupBy("Category", { "Amount": "sum" });
+
+    summary.to_worksheet(workbook.getWorksheet("Summary"));
+    return summary.to_json();
+}</div>
+<div class="cap">Illustrative workflow using the library's documented methods. The fr namespace is embedded in the script; the CSV columns and worksheet name are generic examples.</div>
+
+<h2 class="sub">The cost of shipping one namespace</h2>
+<p>Office Scripts did not give me a package-import workflow, so I shipped the library as a namespace copied into each script. That made it easy to use in the existing environment, but every script carried methods it never called. The duplicated library code cluttered the script files stored in SharePoint.</p>
+<p>I built Permafrost to keep the convenience of the full library during development and trim the copy that ships with each workflow. It reads the script, identifies the methods it calls, and follows their dependencies through a call graph. That last step matters: a method can depend on helpers the script never calls directly. Permafrost retains those dependencies and the constructor, removes unused methods and internal comments, and copies the result to the clipboard.</p>
+
+<h2 class="sub">Maintaining a small tool</h2>
+<p>The published Permafrost beta has Windows and macOS builds. The current version uses a small custom parser and a dependency graph to identify the code to keep. I plan to build Permafrost v2 around a TypeScript compiler in Rust; that remains future work.</p>
+<p>The repository includes a quickstart, an API reference, and worked examples, including a reservation pipeline that expands stays into nightly rows and aggregates monthly results. Those examples give other users a starting point for adapting the library to their own workflows.</p>
 </div>
 </div>
 
