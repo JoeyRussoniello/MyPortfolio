@@ -88,14 +88,16 @@ a.card:hover .go{transform:translateX(8px)}
     <h2 class="sub" style="margin-top:0">From database pulls to live comparisons</h2>
     <p>I built Semantic Connect so Trinity's custom web apps can query Power BI measures without hand-written DAX. Our internal underwriting app uses it to pull financial and operating metrics for nearby assets. I have observed all 16 queries across two semantic models finish in under a second, running in parallel from a cold application backend.</p>
     <p>Previously, the app retrieved data through database stored procedures. It can now reuse the calculation definitions maintained in our semantic models. These queries supply internal comparisons alongside the app's public market research; the timing covers the model queries only.</p>
-    <p>I built the query library, DAX compiler, execution backends, and underwriting data pull integrations, on top of the database and data engineering workloads I also own at Trinity. The library is in internal use and active development.</p>
-
-    <h2 class="sub">Why REST made this practical</h2>
-    <p>The sempy notebook path I tested had roughly 10 seconds of cold-start overhead, with Fabric VM startup adding up to another 30 seconds. It also lacked the service-principal and on-behalf-of authentication flows our app needed. That made it unsuitable for interactive requests from a custom web app.</p>
-    <p>Database queries used background compute shared with our data engineering workloads. In our setup, bringing remote data into local storage incurred fixed 60-second CPU cycles, a poor fit for sustained, low-volume requests. I chose REST to query the semantic model on interactive compute, with its separate capacity smoothing, and let a FastAPI app use an authorized backend outside Fabric notebooks.</p>
+    <p>I built the query library, DAX compiler, execution backends, and underwriting data pull integrations, on top of the database and data engineering workloads I also own at Trinity. I continue to develop it alongside my data engineering work.</p>
 
     <h2 class="sub">One query contract, reusable backends</h2>
-    <p>The builder describes measures, groupings, filters, and sort order in Python. My compiler turns that request into DAX. The same query contract can run through a Fabric notebook backend or a REST backend, so the caller can choose the execution path for its environment without rewriting the query. REST gives our custom app an execution path outside the notebook runtime.</p>
+    <p>The builder describes measures, groupings, filters, and sort order in Python. My compiler turns that request into DAX. Both REST and sempy backends are supported: switching environments means changing the backend, not rewriting the query.</p>
+    <div class="code"># Custom web apps and services
+backend = DaxBackend.over_rest()
+
+# Fabric notebooks: XMLA access for large reads
+backend = DaxBackend.over_sempy()</div>
+    <p>The sempy backend lets Fabric notebooks query semantic models through an XMLA connection for large read operations. The REST backend serves our custom web app. Either backend can execute the same builder query:</p>
     <div class="code">result = (
     model.query()
     .measure("Example Total")
@@ -108,8 +110,12 @@ df = result.to_pandas()</div>
     <div class="cap">Illustrative syntax. Package, configuration, property, measure, and table names in these examples are generic placeholders.</div>
     <p>The current release builds and executes queries. Model-aware validation is next: it does not yet check that a measure or column exists before sending a request.</p>
 
+    <h2 class="sub">Why REST made this practical</h2>
+    <p>The sempy notebook path I tested had roughly 10 seconds of cold-start overhead, with Fabric VM startup adding up to another 30 seconds. It also lacked the service-principal and on-behalf-of authentication flows our app needed. That made it unsuitable for interactive requests from a custom web app.</p>
+    <p>Database queries used background compute shared with our data engineering workloads. In our setup, bringing remote data into local storage incurred fixed 60-second CPU cycles, a poor fit for sustained, low-volume requests. I chose REST to query the semantic model on interactive compute, with its separate capacity smoothing, and let a FastAPI app use an authorized backend outside Fabric notebooks.</p>
+
     <h2 class="sub">Parallelism matters</h2>
-    <p>The underwriting workflow needs several independent reads from two models. I added async execution so those reads can run in parallel through one reusable backend instance. The queries describe what to fetch; the backend handles execution. The example below runs financial and occupancy queries together.</p>
+    <p>The underwriting workflow needs several independent reads from two models. I added async execution so those reads can run in parallel through one reusable backend instance. The example below runs financial and operating queries together, sharing the backend across both models.</p>
     <div class="code">import asyncio
 
 from semantic_connect import Model
@@ -152,7 +158,7 @@ asyncio.run(main())</div>
       <table style="width:100%;border-collapse:collapse;font-family:'Bricolage Grotesque',system-ui,sans-serif;font-size:16px;line-height:1.4;color:#131A16">
         <thead>
           <tr style="border-bottom:2px solid #131A16">
-            <th style="text-align:left;padding:8px 10px;font-weight:800">max_concurrent_requests</th>
+            <th style="text-align:left;padding:8px 10px;font-weight:800">Concurrency limit</th>
             <th style="text-align:left;padding:8px 10px;font-weight:800">Median</th>
             <th style="text-align:left;padding:8px 10px;font-weight:800">Fastest</th>
             <th style="text-align:left;padding:8px 10px;font-weight:800">Slowest</th>
@@ -168,14 +174,14 @@ asyncio.run(main())</div>
       </table>
     </div>
 
-    <div class="cap">Recorded concurrency sweep. These timings are distinct from the underwriting workflow observation above; they are not an end-to-end app benchmark.</div>
+    <div class="cap">Recorded concurrency sweep, separate from the underwriting result above. At 16 concurrent requests, REST API rate limiting caused the 62.449-second result. I chose eight workers as the default: its median was slightly higher, but it avoided that rate-limit delay in this run.</div>
 
-    <h2 class="sub">An open-source release is in development</h2>
-    <p>I am also developing an open-source version for release. The backend and CLI are independent of Trinity's models, so other companies using Microsoft Fabric could configure the tool for their own semantic models. The internal underwriting app is one application of that foundation.</p>
+    <h2 class="sub">Built for other Fabric models, too</h2>
+    <p>The backend and CLI are independent of Trinity's models. I am developing an open-source version that I plan to release so other companies using Microsoft Fabric can configure it for their own semantic models.</p>
 
     <h2 class="sub">Next: validation before execution</h2>
     <p>I plan to add model-snapshot validation so the library can check measures, columns, filters, and groupings before generating DAX. Typed references and generated interfaces would build on that foundation.</p>
-    <p>That is also the direction for an improved internal semantic MCP server. In our use, existing Power BI and Fabric IQ integrations can spend minutes generating and correcting DAX. I want agents to work through a validated query contract. The current library provides the builder and execution layer; the validator and improved MCP server remain future work.</p>
+    <p>I also plan to use that validation layer in an improved internal semantic MCP server. In our use, existing Power BI and Fabric IQ integrations can spend minutes generating and correcting DAX. I want agents to use the same query builder, with model references checked before execution.</p>
   </div>
 </div>
 
