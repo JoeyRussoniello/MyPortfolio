@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>adpapi, Joey Russoniello</title>
-<meta name="description" content="Joey Russoniello, data engineer. Software that fixes inherently clunky environments.">
+<meta name="description" content="How I built a Python SDK for ADP Workforce Now, starting with automated birthday and work-anniversary reminders at Trinity.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400..600&display=swap" rel="stylesheet">
@@ -71,7 +71,7 @@ a.card:hover .go{transform:translateX(8px)}
 <div style="max-width:1240px;margin:0 auto;padding:88px 32px 72px">
 <div style="font-weight:700;font-size:16px">Python SDK, published on PyPI</div>
 <h1 class="disp rise" style="margin:14px 0 0;font-size:clamp(52px,9vw,136px);line-height:0.92">adpapi</h1>
-<p class="serif" style="margin:28px 0 0;font-size:24px;line-height:1.45;max-width:38ch">A small, typed client for the ADP Workforce Now API.</p>
+<p class="serif" style="margin:28px 0 0;font-size:24px;line-height:1.45;max-width:38ch">A Python SDK behind employee celebrations and everyday HR integrations.</p>
 </div>
 </div>
 
@@ -79,15 +79,17 @@ a.card:hover .go{transform:translateX(8px)}
 <div style="max-width:1240px;margin:0 auto;padding:64px 32px 96px">
 <div class="prose serif" style="font-size:20px;line-height:1.7;max-width:100%">
 <div style="display:flex;flex-wrap:wrap;gap:12px 28px;padding:0 0 20px;border-bottom:2px solid #131A16;margin-bottom:24px;font-family:'Bricolage Grotesque',system-ui,sans-serif;font-size:15px;font-weight:700;color:#3C4A42">
-<div><span style="display:block;font-size:12px;text-transform:uppercase;letter-spacing:0.12em;color:#3C4A42;opacity:0.8">In use</span>Behind all of Trinity's internal ADP integrations</div>
+<div><span style="display:block;font-size:12px;text-transform:uppercase;letter-spacing:0.12em;color:#3C4A42;opacity:0.8">In use</span>Several internal Workforce Now integrations at Trinity</div>
 <div><span style="display:block;font-size:12px;text-transform:uppercase;letter-spacing:0.12em;color:#3C4A42;opacity:0.8">Stack</span>Python, OAuth2, mTLS, OData, Azure Functions, Microsoft Fabric</div>
 <div><span style="display:block;font-size:12px;text-transform:uppercase;letter-spacing:0.12em;color:#3C4A42;opacity:0.8">Links</span><a class="ulnk" href="https://pypi.org/project/adpapi/">PyPI</a><br><a class="ulnk" href="https://joeyrussoniello.github.io/Adp-Api-Client/">Documentation</a><br><a class="ulnk" href="https://github.com/JoeyRussoniello/Adp-Api-Client">Source on GitHub</a></div>
 </div>
-<h2 class="sub" style="margin-top:0">The problem</h2>
-<p>ADP's Workforce Now API uses OAuth2 client credentials with mutual TLS, OData-style paging and field selection, and endpoints that return differently shaped data. Every integration was about to repeat the same auth, paging, and retry code, so I wrote it once.</p>
-<h2 class="sub">What it does</h2>
-<p>Credentials come from environment variables. <b>call_endpoint</b> pages through a collection with OData's top, skip, and select parameters and stops on an HTTP 204. <b>call_rest_endpoint</b> fills path parameters from a list, so pulling a set of workers by ID is one call. You can ask for masked or unmasked fields, subject to the tenant's permissions.</p>
-<p>Filtering uses a small expression builder that turns Python operators into OData filter strings, so a query reads like code instead of a hand-assembled string.</p>
+<h2 class="sub" style="margin-top:0">An SDK that started with a birthday reminder</h2>
+<p>Trinity Ops wanted employees' birthdays and work anniversaries on their supervisors' calendars, with reminder emails to help supervisors celebrate them. I built the entire adpapi SDK to support that workflow. It is still running today.</p>
+<p>ADP Workforce Now access meant handling OAuth2 client credentials, mutual TLS certificates, token refresh, and paginated responses. I put those concerns into a reusable client so the next integration would not have to implement them again. The SDK now supports several internal workflows, including calendar sync, deduction auditing, HR email automation, and CRM reconciliation.</p>
+
+<h2 class="sub">One client, reusable query handling</h2>
+<p>The client handles authentication, retries with exponential backoff, and OData pagination. For endpoints that take identifiers in the path, it can make a batch of requests from a list of IDs. Callers choose the fields and filters they need, with masked or unmasked responses subject to the tenant's permissions.</p>
+<p>I built an expression API for composing OData filters in Python. It keeps filter construction readable at the call site while the client handles the request details.</p>
 <div class="code">from adpapi import AdpApiClient, AdpCredentials
 from adpapi.odata_filters import FilterExpression
 
@@ -103,12 +105,11 @@ with AdpApiClient(AdpCredentials.from_env()) as api:
         select=["workers/person/legalName", "workers/associateOID"],
         masked=True,
     )</div>
-<div class="cap">Adapted from the project README.</div>
-<h2 class="sub">Running in notebooks</h2>
-<p>Fabric and Databricks notebooks are awkward places to install a custom package. The repository includes a single notebook, monofile, that you upload and run with one magic command, after which the client is available without imports.</p>
-<h2 class="sub">In production</h2>
-<p>The SDK is the foundation of Trinity's internal ADP work: calendar sync, deduction auditing, HR email automation, and CRM reconciliation. Those run as Azure Functions with app registrations and rotating secrets, writing into Microsoft Fabric. The package is on PyPI with CI checks, a documentation site, and an MIT license, and it is the top Google result for "Python ADP SDK".</p>
-<div class="gap">Your note: add what made ADP's API hard to work with, and what you learned designing the query builder.</div>
+<div class="cap">Adapted from the public README. Field paths are illustrative; supported filters depend on the ADP endpoint.</div>
+
+<h2 class="sub">The same client in services and notebooks</h2>
+<p>The internal integrations run as Azure Functions and feed data into Microsoft Fabric. I also provide a generated single-notebook version for Fabric and Databricks: running that notebook exposes the client in the session without installing the package into a custom runtime.</p>
+<p>The SDK is published on PyPI with documentation and an MIT license. Its scope is Workforce Now. Trinity also uses Workforce Manager, whose integrations are outside this SDK.</p>
 </div>
 </div>
 

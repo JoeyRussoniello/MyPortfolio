@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Slay the Spire win prediction, Joey Russoniello</title>
-<meta name="description" content="Joey Russoniello, data engineer. Software that fixes inherently clunky environments.">
+<meta name="description" content="How I reconstructed Slay the Spire runs and compared sequential win predictors with per-floor baselines for DS340.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400..600&display=swap" rel="stylesheet">
@@ -71,7 +71,7 @@ a.card:hover .go{transform:translateX(8px)}
 <div style="max-width:1240px;margin:0 auto;padding:88px 32px 72px">
 <div style="font-weight:700;font-size:16px">Machine learning research</div>
 <h1 class="disp rise" style="margin:14px 0 0;font-size:clamp(46px,8vw,120px);line-height:0.92;max-width:16ch">Slay the Spire win prediction</h1>
-<p class="serif" style="margin:28px 0 0;font-size:24px;line-height:1.45;max-width:38ch">Predicting, floor by floor, whether a run of a deck-building game will end in a win.</p>
+<p class="serif" style="margin:28px 0 0;font-size:24px;line-height:1.45;max-width:38ch">Estimating a run’s chance of winning from its evolving deck and history.</p>
 </div>
 </div>
 
@@ -83,18 +83,45 @@ a.card:hover .go{transform:translateX(8px)}
 <div><span style="display:block;font-size:12px;text-transform:uppercase;letter-spacing:0.12em;color:#3C4A42;opacity:0.8">Stack</span>Python, PyTorch, scikit-learn, Jupyter, Google Colab</div>
 <div><span style="display:block;font-size:12px;text-transform:uppercase;letter-spacing:0.12em;color:#3C4A42;opacity:0.8">Links</span><a class="ulnk" href="https://github.com/JoeyRussoniello/sts-win-prediction">Source on GitHub</a><br><a class="ulnk" href="https://github.com/JoeyRussoniello/sts-win-prediction/tree/main/results">Paper and slides</a></div>
 </div>
-<h2 class="sub" style="margin-top:0">The question</h2>
-<p>Slay the Spire is a roguelike deck-builder where a run is a long chain of choices: which cards to take, which relics, which path. Most runs fail, and players rarely know where it went wrong. Could a model look at a run midway, say how likely it is to win, and show where the odds collapsed?</p>
-<h2 class="sub">The data</h2>
-<p>The raw logs record a run's choices, not its state. The first stage is a deterministic replay system that rebuilds the exact deck and relics on every floor, turning 126K human runs into about 3 million floor-level rows. The dataset is too large for GitHub and can demand up to 50GB of RAM, so the notebooks are meant to run in Colab against a shared drive.</p>
-<h2 class="sub">Representing a deck</h2>
-<p>Each deck becomes a high-dimensional vector of card counts. Compressing those vectors with SVD gives compact embeddings, and they capture real archetype structure: decks that play alike end up near each other.</p>
-<h2 class="sub">Models and findings</h2>
-<p>Baselines predict each floor on its own with logistic regression and a small neural network. The sequential models are LSTMs that carry information from floor to floor. They produce smoother and more accurate predictions than the baselines, and win probability becomes reliably separable by about floor 35. Plotted across a run, the predictions form a curve that exposes the choke points where a run stops being likely to win.</p>
-<p>The write-up is a full paper, <i>Sequential Win Probability Modeling in Slay The Spire Using Floor Level Representations and Recurrent Neural Architectures</i>, with a lightning talk alongside it.</p>
-<h2 class="sub">Where it goes next</h2>
-<p>The next steps are combining several models for steadier predictions, and building an in-game mod with an evaluation bar inspired by chess.com, so a player can see exactly which big decisions cost them the run.</p>
-<div class="gap">Your note: add what drew you to this problem and what surprised you in the results.</div>
+<h2 class="sub" style="margin-top:0">Building a representation of a run</h2>
+<p>I love Slay the Spire, so I used my DS340 applied machine learning and neural networks project to ask a question I cared about: can a model estimate a run's chance of winning as its deck changes? I led the implementation from reconstructing the data through modeling and evaluation. I coauthored the accompanying paper with Fernando Martín.</p>
+
+<h2 class="sub">First, reconstruct the deck</h2>
+<p>The raw logs record events, not a ready-to-model deck on every floor. I built the reconstruction pipeline to replay card additions, removals, upgrades, and relic acquisitions in order. Roughly 126,000 human runs became about three million floor states, each paired with its run's final outcome.</p>
+<p>I represented each deck as a 1,380-dimensional card-count vector, then used truncated SVD to compress it to 128 dimensions. This gave the models a compact representation of the changing deck alongside game-state features such as health and ascension level. The repository includes notebooks for reconstruction, card handling, exploration, and modeling; the large datasets and pretrained models are shared separately for use in Colab.</p>
+
+<h2 class="sub">A snapshot or a history?</h2>
+<p>Logistic regression and the MLP predict from one floor at a time. The LSTM processes the sequence up to that point, carrying information about how the run developed. I built a configurable PyTorch modeling and training framework so I could compare architectures without rewriting the training loop for each experiment.</p>
+
+<h2 class="sub">Attention did not improve the model</h2>
+<p>At floor 35, the plain two-layer LSTM achieved a held-out ROC AUC of 0.873, compared with 0.789 for the per-floor MLP. Adding attention reduced AUC to 0.759. I expected attention to help because context matters in this game; in these experiments, the simpler recurrent model worked better.</p>
+<p>The paper's sample trajectories show smoother predictions from the LSTM than from the MLP. That made the curves easier to inspect, but smoothness alone was not the result: I compared models at fixed floor horizons, using only the history available through each evaluation floor.</p>
+<div style="background:#F3F5EE;border:2px solid #131A16;border-radius:6px;padding:20px 24px;margin:24px 0;overflow-x:auto">
+<table style="width:100%;border-collapse:collapse;font-family:'Bricolage Grotesque',system-ui,sans-serif;font-size:16px;line-height:1.5">
+<caption style="text-align:left;font-weight:800;margin-bottom:12px">Floor 35 · held-out runs that reached this floor</caption>
+<thead><tr style="text-align:left;border-bottom:2px solid #131A16"><th style="padding:8px">Model</th><th style="padding:8px">ROC AUC</th><th style="padding:8px">Win recall</th><th style="padding:8px">F1</th></tr></thead>
+<tbody>
+<tr><td style="padding:8px">Logistic regression</td><td style="padding:8px">0.740</td><td style="padding:8px">0.519</td><td style="padding:8px">0.548</td></tr>
+<tr><td style="padding:8px">MLP</td><td style="padding:8px">0.789</td><td style="padding:8px">0.630</td><td style="padding:8px">0.592</td></tr>
+<tr style="background:#D8E9F9"><td style="padding:8px;font-weight:800">Two-layer LSTM</td><td style="padding:8px">0.873</td><td style="padding:8px">0.826</td><td style="padding:8px">0.634</td></tr>
+<tr><td style="padding:8px">LSTM with attention</td><td style="padding:8px">0.759</td><td style="padding:8px">0.557</td><td style="padding:8px">0.574</td></tr>
+</tbody></table>
+</div>
+<div class="cap">Rounded from Table 1 of the project paper. ROC AUC measures how well scores rank wins above losses; win recall measures the share of winning runs identified. SVD was fitted before the split, so the representation had already seen the held-out data.</div>
+
+<p>The ranking also changed with the horizon. At floor 50, the MLP had the higher F1 score (0.900 versus 0.860), while the plain LSTM had higher ROC AUC (0.980 versus 0.958). A sequence model was useful, but it was not the best choice on every metric at every stage.</p>
+
+<figure style="margin:36px 0 40px">
+<a href="sts-fantasy-trajectories.png" aria-label="View fantasy-style trajectory illustration at full size"><img src="sts-fantasy-trajectories.png" width="1536" height="1024" loading="lazy" alt="Fantasy parchment illustration comparing jagged MLP predictions with smoother LSTM trajectories. A sword marks a choke point at the sharp prediction drop in the top-right graph. Blue losing runs can rise before collapsing; orange winning runs generally rise." style="display:block;width:100%;height:auto;border-radius:6px"></a>
+<figcaption class="cap" style="margin-top:14px">A fantasy-style interpretation of the sample trajectories: per-floor predictions fluctuate, while the LSTM carries information across floors. The curves are illustrative, not exact measurements. Original paper figures: <a class="ulnk" href="sts-mlp-trajectories.png">MLP</a> · <a class="ulnk" href="sts-lstm-trajectories.png">LSTM</a>.</figcaption>
+</figure>
+
+
+
+<h2 class="sub">What the evaluation can tell us</h2>
+<p>I split by run identifier so floors from the same run stayed together. The floor-35 and floor-50 results use held-out runs that reached those floors. That population matters: these scores describe surviving runs at a given horizon, rather than every run that started the game.</p>
+<p>SVD was fitted on all of the data before the split. A stricter follow-up would fit the representation on training runs alone and transform held-out runs afterward. I would use that evaluation before making stronger claims about generalization.</p>
+<p>A falling prediction can flag a point worth reviewing. It does not prove that the preceding choice caused the loss: these are predictions from observed human play, not experiments comparing alternative decisions. The project gave me a way to inspect a run's development and a concrete lesson in testing architectural intuition against results.</p>
 </div>
 </div>
 

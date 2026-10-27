@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>rust-autograder-setup, Joey Russoniello</title>
-<meta name="description" content="Joey Russoniello, data engineer. Software that fixes inherently clunky environments.">
+<meta name="description" content="How I built a Rust CLI and test-based assignment workflow to support consistent partial-credit grading across four sections of BU DS210.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400..600&display=swap" rel="stylesheet">
@@ -39,6 +39,7 @@ a.card:hover .go{transform:translateX(8px)}
 .ulnk:hover{color:#1F36B8}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
 </style>
+<link rel="stylesheet" href="autograder-demo.css">
 </head>
 <body>
 
@@ -71,7 +72,7 @@ a.card:hover .go{transform:translateX(8px)}
 <div style="max-width:1240px;margin:0 auto;padding:88px 32px 72px">
 <div style="font-weight:700;font-size:16px">Rust CLI, published on crates.io</div>
 <h1 class="disp rise" style="margin:14px 0 0;font-size:clamp(46px,8vw,120px);line-height:0.92">rust-autograder-setup</h1>
-<p class="serif" style="margin:28px 0 0;font-size:24px;line-height:1.45;max-width:38ch">A command line tool that sets up GitHub Classroom autograding for Rust assignments in under a minute.</p>
+<p class="serif" style="margin:28px 0 0;font-size:24px;line-height:1.45;max-width:38ch">Explicit grading criteria and partial credit for 130+ Rust students in one semester.</p>
 </div>
 </div>
 
@@ -79,24 +80,62 @@ a.card:hover .go{transform:translateX(8px)}
 <div style="max-width:1240px;margin:0 auto;padding:64px 32px 96px">
 <div class="prose serif" style="font-size:20px;line-height:1.7;max-width:100%">
 <div style="display:flex;flex-wrap:wrap;gap:12px 28px;padding:0 0 20px;border-bottom:2px solid #131A16;margin-bottom:24px;font-family:'Bricolage Grotesque',system-ui,sans-serif;font-size:15px;font-weight:700;color:#3C4A42">
-<div><span style="display:block;font-size:12px;text-transform:uppercase;letter-spacing:0.12em;color:#3C4A42;opacity:0.8">In use</span>Boston University's Intro to Rust: 130+ students, more than 1,000 repositories, 38 releases</div>
-<div><span style="display:block;font-size:12px;text-transform:uppercase;letter-spacing:0.12em;color:#3C4A42;opacity:0.8">Stack</span>Rust, GitHub Actions, mdBook</div>
+<div><span style="display:block;font-size:12px;text-transform:uppercase;letter-spacing:0.12em;color:#3C4A42;opacity:0.8">In use</span>BU DS210: four sections, 130+ students, 1,000+ assignment repositories in one semester</div>
+<div><span style="display:block;font-size:12px;text-transform:uppercase;letter-spacing:0.12em;color:#3C4A42;opacity:0.8">Stack</span>Rust, syn, GitHub Actions, mdBook</div>
 <div><span style="display:block;font-size:12px;text-transform:uppercase;letter-spacing:0.12em;color:#3C4A42;opacity:0.8">Links</span><a class="ulnk" href="https://crates.io/crates/autograder-setup">crates.io</a><br><a class="ulnk" href="https://joeyrussoniello.github.io/rust-autograder-setup/">Documentation</a><br><a class="ulnk" href="https://github.com/JoeyRussoniello/rust-autograder-setup">Source on GitHub</a></div>
 </div>
-<h2 class="sub" style="margin-top:0">The problem</h2>
-<p>A Rust course on GitHub Classroom needs an autograding workflow for every assignment: each test listed with its points and timeout, plus checks like linting. Writing that configuration by hand is slow and easy to get wrong, and students cannot always see how their work will be scored.</p>
-<h2 class="sub">How it works</h2>
-<p>The tool has four commands that follow the instructor's workflow. <b>init</b> scans the assignment's source, parses it into a syntax tree to find the tests, and writes a config file listing them. You adjust points and timeouts in that file. <b>build</b> turns the config into a ready-to-run GitHub Actions workflow. <b>table</b> produces a Markdown grading table for the README, so grading criteria are visible to students. <b>reset</b> removes everything it generated.</p>
-<div class="code">autograder-setup init     # scan src/, write .autograder/autograder.json
-autograder-setup build    # write .github/workflows/classroom.yaml
-autograder-setup table    # Markdown grading table for the README
-autograder-setup reset    # remove generated files</div>
-<div class="cap">The full workflow, from the project's quickstart.</div>
-<h2 class="sub">Design choices</h2>
-<p>The workflows are precompiled, so nothing is parsed at run time, which makes each grading run faster and cheaper on GitHub's runners. The generated table can be copied to the clipboard or written straight into the README. Installing is one line with Cargo, and prebuilt binaries cover macOS and Windows.</p>
-<h2 class="sub">In use</h2>
-<p>The tool is deployed in Boston University's Intro to Rust, where I was a course assistant. It has carried a full course of 130+ students and more than 1,000 repositories through 38 releases, and it has an mdBook documentation site with an FAQ and a JSON schema reference.</p>
-<div class="gap">Your note: add the story of how the course needed this, and what you learned shipping a tool that real students depend on.</div>
+<h2 class="sub" style="margin-top:0">From subjective reviews to explicit criteria</h2>
+<p>In one semester, four sections of Boston University's DS210, Programming in Rust, used this workflow across 130+ students and more than 1,000 student assignment repositories. I built the entire CLI while serving as a teaching assistant from January 2025 to June 2026.</p>
+<p>Before this, we reviewed submissions manually. Assignments did not have test cases, and students in previous semesters had complained that grading was subjective and difficult to standardize across graders. GitHub Classroom did not offer the Rust-specific setup we needed. A single pass/fail result from a Cargo test run also did not give us a partial-credit rubric.</p>
+<p>I built a tool that discovers individual tests, lets instructors configure their point values, and generates a GitHub Actions grading workflow. The same configuration produces a student-facing grading table, making the criteria visible alongside the assignment.</p>
+
+<h2 class="sub">Discover once, configure, then generate</h2>
+<p>I used syn to parse Rust source and discover test functions, including tests inside nested modules. Instructors do not have to list each function or point the command at individual test files. Discovery writes an editable configuration; points and timeouts can be adjusted before generating the workflow.</p>
+<div class="code"># Discover tests and create an editable grading configuration
+autograder-setup init
+
+# After reviewing points and timeouts, generate the workflow
+autograder-setup build
+
+# Publish the same grading criteria in the assignment README
+autograder-setup table --to-readme</div>
+<div class="cap">The CLI separates test discovery, grading decisions, and workflow generation. reset removes generated artifacts when an assignment needs a fresh setup.</div>
+<p>The generated workflow runs checks with their configured point values, allowing students to earn credit for passing parts of the assignment. Generating the YAML ahead of time keeps configuration parsing out of grading runs. By default, grading uses a dispatch trigger rather than running on every push, limiting unnecessary CI runs.</p>
+
+<section class="ag-demo ui" id="grading-demo" aria-label="Try a simulated Rust autograder">
+<div class="ag-top"><div><div class="ag-eyebrow">YOUR TURN AT THE GRADING DESK</div><h2>One bug should not erase every point.</h2></div><div class="ag-score" aria-label="Assignment score"><span id="ag-earned">?</span><span>/ 10</span></div></div>
+<p class="ag-intro">This submission adds correctly, misses an edge case, and leaves one function unfinished. Run the checks to see what earns credit.</p>
+<div class="ag-layout"><div><div class="ag-label">STUDENT SUBMISSION · MINI_ASSIGNMENT.RS</div><pre class="ag-code" tabindex="0" aria-label="Illustrative Rust student submission"><code>fn add(a: i32, b: i32) -> i32 {
+    a + b
+}
+
+fn is_even(n: i32) -> bool {
+<span id="ag-bug">    n > 0 &amp;&amp; n % 2 == 0</span>
+}
+
+fn square(n: i32) -> i32 {
+    todo!()
+}</code></pre></div><div><div class="ag-label">PUBLISHED RUBRIC · INDIVIDUAL CHECKS</div><ul class="ag-tests">
+<li data-ag-test="0"><span class="ag-state">○</span><span><strong>add(2, 3) == 5</strong><small>Basic addition</small></span><b>3 pts</b></li>
+<li data-ag-test="1"><span class="ag-state">○</span><span><strong>add(-2, 2) == 0</strong><small>Signed inputs</small></span><b>2 pts</b></li>
+<li data-ag-test="2"><span class="ag-state">○</span><span><strong>is_even(0)</strong><small>Zero is even</small></span><b>2 pts</b></li>
+<li data-ag-test="3"><span class="ag-state">○</span><span><strong>square(4) == 16</strong><small>Unfinished implementation</small></span><b>3 pts</b></li>
+</ul></div></div>
+<div class="ag-actions"><button type="button" id="ag-run">Run the autograder →</button><button type="button" id="ag-fix" disabled>Fix the edge case</button><button type="button" id="ag-reset">Reset submission</button></div>
+<div id="ag-status" class="ag-status" role="status" aria-live="polite">Ready when you are. Each passing check earns its own points.</div>
+<p class="ag-foot">Simulated run with a fixed illustrative rubric; no Rust code executes in your browser. The real CLI generates GitHub Actions workflows from discovered tests and instructor-configured point values.</p>
+</section>
+
+<h2 class="sub">I built the assignments as well as the tool</h2>
+<p>Instructors gave me assignment specifications. I wrote the function stubs and test cases, then used the CLI to turn them into autograded GitHub Classroom assignments. Students filled in the implementations against those interfaces and practiced GitHub workflows as part of the course.</p>
+<p>That process taught me stub-driven design in practice: the interfaces had to communicate the assignment clearly and let the test suite exercise student implementations consistently. The CLI handled the repeated setup so I could focus on the assignment and its grading criteria.</p>
+
+<h2 class="sub">Supporting how students work</h2>
+<p>After deployment, I added configurable credit for commit-count thresholds and for students writing their own tests. Those checks let an instructor include development practices alongside functional correctness in the rubric.</p>
+<p>The project also became teaching material. Later in the semester, we used it in a lecture on modular design. Alongside teaching sections, I built interactive visuals of the repository's growth to help students in a 200-level course understand how a larger program fits together.</p>
+
+<h2 class="sub">Continued use beyond GitHub Classroom</h2>
+<p>The DS210 implementation is now maintained by Lauren Wheelock. The course continues to use the approach through a fork adapted for Gradescope autograding outside GitHub Classroom. The original CLI remains available on crates.io, with an mdBook guide, configuration reference, and prebuilt Windows and macOS binaries.</p>
 </div>
 </div>
 
@@ -123,5 +162,6 @@ autograder-setup reset    # remove generated files</div>
 </div>
 
 
+<script src="autograder-demo.js" defer></script>
 </body>
 </html>
