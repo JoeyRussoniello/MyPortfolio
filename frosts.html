@@ -39,6 +39,7 @@ a.card:hover .go{transform:translateX(8px)}
 .ulnk:hover{color:#1F36B8}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
 </style>
+<link rel="stylesheet" href="permafrost-demo.css">
 </head>
 <body>
 
@@ -105,6 +106,15 @@ a.card:hover .go{transform:translateX(8px)}
 }</div>
 <div class="cap">Illustrative workflow using the library's documented methods. The fr namespace is embedded in the script; the CSV columns and worksheet name are generic examples.</div>
 
+<section id="permafrost-demo" class="pf ui" aria-label="Interactive Permafrost walkthrough">
+<div class="pf-head"><div><div class="pf-eyebrow">INSIDE PERMAFROST</div><h2>Keep the calls. Follow the edges. Lose the rest.</h2></div><span class="pf-badge" id="pf-count"></span></div>
+<p class="pf-intro">A miniature namespace, based on the workflow above. Follow the parser from call sites to the code that survives.</p>
+<div class="pf-controls"><button type="button" id="pf-play">Play walkthrough →</button><button type="button" id="pf-next">Next step</button><button type="button" id="pf-reset">Reset</button></div>
+<div class="pf-steps" aria-label="Compilation stages"></div>
+<div class="pf-layout"><div><div class="pf-label">SCRIPT + EMBEDDED NAMESPACE</div><pre class="pf-source" tabindex="0" aria-label="Illustrative source code"></pre></div><div><div class="pf-label">DEPENDENCY GRAPH · CALLER → HELPER</div><div class="pf-graph"></div><div class="pf-legend"><span>● Direct call</span><span>● Required helper</span><span>○ Unused</span></div><div class="pf-explanation" role="status" aria-live="polite"></div></div></div>
+<p class="pf-foot">Illustrative parser trace, not a live TypeScript compiler. Helper names and method bodies are simplified; the real compiler follows its extracted call graph.</p>
+</section>
+
 <h2 class="sub">The cost of shipping one namespace</h2>
 <p>Office Scripts did not give me a package-import workflow, so I shipped the library as a namespace copied into each script. That made it easy to use in the existing environment, but every script carried methods it never called. The duplicated library code cluttered the script files stored in SharePoint.</p>
 <p>I built Permafrost to keep the convenience of the full library during development and trim the copy that ships with each workflow. It reads the script, identifies the methods it calls, and follows their dependencies through a call graph. That last step matters: a method can depend on helpers the script never calls directly. Permafrost retains those dependencies and the constructor, removes unused methods and internal comments, and copies the result to the clipboard.</p>
@@ -138,5 +148,6 @@ a.card:hover .go{transform:translateX(8px)}
 </div>
 
 
+<script src="permafrost-demo.js" defer></script>
 </body>
 </html>
