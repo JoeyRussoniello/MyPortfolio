@@ -77,20 +77,22 @@ a.card:hover .go{transform:translateX(8px)}
 </div>
 
 <!-- body -->
-<div style="max-width:1240px;margin:0 auto;padding:64px 32px 96px;display:flex;flex-wrap:wrap;gap:48px 72px;align-items:flex-start">
-<div style="flex:0 1 280px;min-width:240px;display:flex;flex-direction:column;gap:28px">
-<div><div class="k">Status</div><div class="v">In development, internal at Trinity</div></div>
-<div><div class="k">Stack</div><div class="v">Python, DAX, Microsoft Fabric, Power BI, Apache Arrow</div></div>
-<div><div class="k">Size</div><div class="v">More than 700 tests, a written spec, and about 30 decision records</div></div>
-</div>
-<div class="prose serif" style="flex:1 1 520px;min-width:0;max-width:68ch;font-size:20px;line-height:1.7">
-<h2 class="sub" style="margin-top:0">The problem</h2>
-<p>Trinity's reporting lives in Power BI and Fabric semantic models, where every business definition is already written down as a measure. Getting those numbers out into a web app or an AI agent is the hard part, and both common routes hurt.</p>
-<p>Asking a language model to write DAX produces queries that look right and are wrong, and it takes several rounds of correction to get a trustworthy answer. Querying the lakehouse over SQL skips the measures entirely, so the definitions get rewritten and start to drift, and the queries land on the same background capacity as pipelines and refreshes.</p>
-<h2 class="sub">The approach</h2>
-<p>Semantic Connect is a small Python library that sits between the caller and the model. You describe a query by name: which measures, which columns to group by, which filters, how to sort. The library checks the request, writes the DAX itself with a single deterministic renderer, and sends it to the semantic model's REST query endpoint.</p>
-<p>If something is wrong, such as a measure that does not exist or a sort on a column that is not in the query, it fails immediately with an error that lists what is valid. Nothing has to guess, and nothing needs the network to find out.</p>
-<div class="code">result = (
+<div style="max-width:1240px;margin:0 auto;padding:64px 32px 96px">
+  <div class="prose serif" style="font-size:20px;line-height:1.7;max-width:100%">
+    <div style="display:flex;flex-wrap:wrap;gap:12px 28px;padding:0 0 20px;border-bottom:2px solid #131A16;margin-bottom:24px;font-family:'Bricolage Grotesque',system-ui,sans-serif;font-size:15px;font-weight:700;color:#3C4A42">
+      <div><span style="display:block;font-size:12px;text-transform:uppercase;letter-spacing:0.12em;color:#3C4A42;opacity:0.8">Status</span>Internal v0 release</div>
+      <div><span style="display:block;font-size:12px;text-transform:uppercase;letter-spacing:0.12em;color:#3C4A42;opacity:0.8">Stack</span>Python, DAX, Fabric, Power BI</div>
+      <div><span style="display:block;font-size:12px;text-transform:uppercase;letter-spacing:0.12em;color:#3C4A42;opacity:0.8">Focus</span>Model access without notebook-only auth</div>
+    </div>
+
+    <h2 class="sub" style="margin-top:0">The problem</h2>
+    <p>Trinity's reporting lives in Microsoft Fabric semantic models, and the easy access paths were not good enough. <b>sempy</b> is the obvious choice inside a Fabric notebook, but it is a notebook-centric tool, not a general-purpose way to serve semantic-model data to custom web applications outside the Fabric ecosystem. It also does not support the service-principal and OBO flows we rely on in production. The alternative route is direct lakehouse access through database queries, which is a different architecture and still burns the same finite background capacity as the data engineering workload.</p>
+    <p>The result was a practical gap: internal analyses and AI workflows could either query the semantic model or fit the platform's auth and capacity constraints, but not both. We needed a path that stayed interactive, reused the model's cached definitions, and did not force every request through the same background pool.</p>
+
+    <h2 class="sub">The approach</h2>
+    <p>Semantic Connect is a Python query layer built for that gap. It gives a clean builder pattern for asking a semantic model for a set of measures, dimensions, filters, and sort order, then turns that request into the right DAX for the backend. The same query contract can run against a Fabric notebook path or a REST path, depending on the deployment requirements.</p>
+    <p>That matters because the underlying issue was not just a missing library. It was the interaction between auth, model access, and compute. The layer lets an application ask for governed data by name instead of hand-wiring DAX strings in each call site.</p>
+    <div class="code">result = (
     model.query()
     .measure("Revenue")
     .group_by("Calendar[Year]")
@@ -99,17 +101,80 @@ a.card:hover .go{transform:translateX(8px)}
     .execute(backend)
 )
 df = result.to_pandas()</div>
-<div class="cap">Illustrative. The measure and column names are examples.</div>
-<h2 class="sub">Why the REST path</h2>
-<p>Reads go through the Power BI query API and come back as Arrow, so a web app can run as a service principal with read and build access and nothing more. On a production model, the same query ran about three times faster warm (a 0.38 second median against 1.14) and about seven times faster cold than the notebook-only route, with identical results across more than 3,000 rows.</p>
-<p>There is a capacity argument too. In Fabric, semantic model queries count as interactive operations, which are smoothed over minutes. Background work such as pipelines and warehouse queries is smoothed over a full day. An API on top of a semantic model does not have to queue behind the data engineering workload sharing the same capacity.</p>
-<h2 class="sub">How it is built</h2>
-<p>The builder is immutable, and every method checks its own arguments the moment it is called. One module is the only place query text is composed, and it escapes every name and literal. Two interchangeable executors, one over REST and one over the Fabric notebook library, pass the same contract tests. Importing the package pulls in none of the heavy dependencies until a component needs one.</p>
-<p>The project runs on decision records. Every design choice is written down with its alternatives, and the coding agents that do most of the typing can propose new decisions but cannot change an accepted one.</p>
-<h2 class="sub">What comes next</h2>
-<p>Next is validation against a snapshot of the model, so a bad request is rejected before any DAX exists, and generated typed references so an editor can autocomplete tables, columns, and measures. After that comes a code generator that turns a snapshot into an MCP server, so an agent can only ask questions the model can answer.</p>
-<div class="gap">Your note: add the story of how this started and what you want people to take from it.</div>
-</div>
+    <div class="cap">Illustrative. The measure and column names are examples.</div>
+
+    <h2 class="sub">Parallelism matters</h2>
+    <p>Once the query layer existed, the next win was concurrency. The same abstraction can fan out multiple model reads in parallel, which matters on both MCP-style integrations and static workflows that need several measures or groupings in one burst.</p>
+    <div class="code">import asyncio
+
+from trinity_query import Model
+from trinity_query.backends import AsyncDaxBackend
+
+financials = Model.from_config("financials_rollup")
+operations = Model.from_config("operations")
+
+PROPERTIES = ["Arrive Hollywood", "Arrive Danbury"]
+
+noi = (
+    financials.query()
+    .measure("NOI Actual")
+    .measure("NOI Budget")
+    .group_by("Dim_Property[Property Name]")
+    .where("Dim_Property[Property Name]", "IN", PROPERTIES)
+    .where("'Date Filters'[Date Filter]", "=", "YTD")
+)
+
+occupancy = (
+    operations.query()
+    .measure("Occupancy % Today")
+    .measure("Rentable Unit Count Today")
+    .group_by("DIM_PROPERTY[PROPERTY_NAME]")
+    .where("DIM_PROPERTY[PROPERTY_NAME]", "IN", PROPERTIES)
+)
+
+async def main() -> None:
+    backend = AsyncDaxBackend.from_env()
+    noi_result, occupancy_result = await asyncio.gather(
+        noi.execute_async(backend),
+        occupancy.execute_async(backend),
+    )
+    print(noi_result.to_pandas())
+    print(occupancy_result.to_pandas())
+
+asyncio.run(main())</div>
+    <div style="background:#F3F5EE;border:2px solid #131A16;border-radius:6px;padding:18px 18px 12px;margin:20px 0 0">
+      <div class="ui" style="font-weight:800;font-size:18px;margin:0 0 12px">Parallel request latency</div>
+      <table style="width:100%;border-collapse:collapse;font-family:'Bricolage Grotesque',system-ui,sans-serif;font-size:16px;line-height:1.4;color:#131A16">
+        <thead>
+          <tr style="border-bottom:2px solid #131A16">
+            <th style="text-align:left;padding:8px 10px;font-weight:800">max_concurrent_requests</th>
+            <th style="text-align:left;padding:8px 10px;font-weight:800">Median</th>
+            <th style="text-align:left;padding:8px 10px;font-weight:800">Fastest</th>
+            <th style="text-align:left;padding:8px 10px;font-weight:800">Slowest</th>
+            <th style="text-align:left;padding:8px 10px;font-weight:800">Speedup</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td style="padding:8px 10px">1</td><td style="padding:8px 10px">8.606 s</td><td style="padding:8px 10px">6.846 s</td><td style="padding:8px 10px">67.779 s</td><td style="padding:8px 10px">×0.79</td></tr>
+          <tr style="background:rgba(31,54,184,0.06)"><td style="padding:8px 10px">2</td><td style="padding:8px 10px">4.427 s</td><td style="padding:8px 10px">3.750 s</td><td style="padding:8px 10px">4.493 s</td><td style="padding:8px 10px">×1.53</td></tr>
+          <tr><td style="padding:8px 10px">4</td><td style="padding:8px 10px">2.534 s</td><td style="padding:8px 10px">2.416 s</td><td style="padding:8px 10px">65.057 s</td><td style="padding:8px 10px">×2.68</td></tr>
+          <tr style="background:rgba(255,213,74,0.35)"><td style="padding:8px 10px">8 (default)</td><td style="padding:8px 10px">2.068 s</td><td style="padding:8px 10px">1.705 s</td><td style="padding:8px 10px">5.058 s</td><td style="padding:8px 10px">×3.28</td></tr>
+          <tr><td style="padding:8px 10px">16</td><td style="padding:8px 10px">1.827 s</td><td style="padding:8px 10px">1.784 s</td><td style="padding:8px 10px">62.449 s</td><td style="padding:8px 10px">×3.71</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h2 class="sub">How it is used</h2>
+    <p>In production, this is already part of internal AI-analysis workflows. A common example is underwriting analysis: the model pulls a property's metrics, compares them with nearby holdings using geographic distance and market context, and checks whether the assumptions still hold in that market. The underlying semantic query is not hand-written at the point of use; it is defined once in code and executed through the chosen backend.</p>
+    <p>That pattern also scales for async calls. A single backend instance can be reused across multiple queries, so the app can run independent reads in parallel without rebuilding its connection state each time.</p>
+
+    <h2 class="sub">Why this backend model</h2>
+    <p>The key design choice was to keep reads on the semantic model and away from heavy database-style execution. The REST path keeps queries interactive, it has better parallelism and batching than notebook-only access, and it avoids the finite background resource burden from a steady stream of direct database traffic.</p>
+    <p>The result is a small abstraction that sits in the gap between the application and the model. It is not trying to replace the model. It gives the rest of the system a stable, testable way to ask for governed numbers instead of letting each caller improvise its own queries.</p>
+
+    <h2 class="sub">What comes next</h2>
+    <p>The next phase is the model validator: a schema-aware pass that compares the requested measures, filters, and groupings against the semantic model before any DAX is generated. That is where the project goes from a reliable internal v0 to a more opinionated platform layer, with typed references and generated interfaces that an agent or a UI can safely rely on.</p>
+  </div>
 </div>
 
 <!-- next project -->

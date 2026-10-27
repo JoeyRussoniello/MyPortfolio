@@ -76,13 +76,13 @@ a.card:hover .go{transform:translateX(8px)}
 </div>
 
 <!-- body -->
-<div style="max-width:1240px;margin:0 auto;padding:64px 32px 96px;display:flex;flex-wrap:wrap;gap:48px 72px;align-items:flex-start">
-<div style="flex:0 1 280px;min-width:240px;display:flex;flex-direction:column;gap:28px">
-<div><div class="k">In use</div><div class="v">Behind all of Trinity's internal ADP integrations</div></div>
-<div><div class="k">Stack</div><div class="v">Python, OAuth2, mTLS, OData, Azure Functions, Microsoft Fabric</div></div>
-<div><div class="k">Links</div><div class="v"><a class="ulnk" href="https://pypi.org/project/adpapi/">PyPI</a><br><a class="ulnk" href="https://joeyrussoniello.github.io/Adp-Api-Client/">Documentation</a><br><a class="ulnk" href="https://github.com/JoeyRussoniello/Adp-Api-Client">Source on GitHub</a></div></div>
+<div style="max-width:1240px;margin:0 auto;padding:64px 32px 96px">
+<div class="prose serif" style="font-size:20px;line-height:1.7;max-width:100%">
+<div style="display:flex;flex-wrap:wrap;gap:12px 28px;padding:0 0 20px;border-bottom:2px solid #131A16;margin-bottom:24px;font-family:'Bricolage Grotesque',system-ui,sans-serif;font-size:15px;font-weight:700;color:#3C4A42">
+<div><span style="display:block;font-size:12px;text-transform:uppercase;letter-spacing:0.12em;color:#3C4A42;opacity:0.8">In use</span>Behind all of Trinity's internal ADP integrations</div>
+<div><span style="display:block;font-size:12px;text-transform:uppercase;letter-spacing:0.12em;color:#3C4A42;opacity:0.8">Stack</span>Python, OAuth2, mTLS, OData, Azure Functions, Microsoft Fabric</div>
+<div><span style="display:block;font-size:12px;text-transform:uppercase;letter-spacing:0.12em;color:#3C4A42;opacity:0.8">Links</span><a class="ulnk" href="https://pypi.org/project/adpapi/">PyPI</a><br><a class="ulnk" href="https://joeyrussoniello.github.io/Adp-Api-Client/">Documentation</a><br><a class="ulnk" href="https://github.com/JoeyRussoniello/Adp-Api-Client">Source on GitHub</a></div>
 </div>
-<div class="prose serif" style="flex:1 1 520px;min-width:0;max-width:68ch;font-size:20px;line-height:1.7">
 <h2 class="sub" style="margin-top:0">The problem</h2>
 <p>ADP's Workforce Now API uses OAuth2 client credentials with mutual TLS, OData-style paging and field selection, and endpoints that return differently shaped data. Every integration was about to repeat the same auth, paging, and retry code, so I wrote it once.</p>
 <h2 class="sub">What it does</h2>
